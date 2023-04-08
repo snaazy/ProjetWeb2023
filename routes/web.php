@@ -48,7 +48,7 @@ Route::post('/register', [App\Http\Controllers\RegisterController::class, 'regis
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
 
-    Route::get('/admin/users', [App\Http\Controllers\App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
     Route::resource('formations', App\Http\Controllers\FormationController::class);
     Route::resource('admin/formations',App\Http\Controllers\FormationController::class)->except(['show']);
     Route::get('admin/formations/create', [App\Http\Controllers\FormationController::class, 'create'])->name('admin.formations.create');
@@ -57,6 +57,15 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/formations/{formation}/edit', [App\Http\Controllers\FormationController::class, 'edit'])->name('admin.formations.edit');
     Route::delete('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'destroy'])->name('admin.formations.destroy');
     Route::put('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'update'])->name('admin.formations.update');
+    Route::post('/admin/users/{user}/approve', 'App\Http\Controllers\AdminController@approveUser')->name('admin.users.approve');
+
     // ...
-    // ...
+});
+
+Route::get('/inactive', function () {
+    return view('inactive');
+})->name('inactive')->middleware('auth');
+
+Route::middleware(['ensureUserIsActive'])->group(function () {
+    // Ajoutez ici toutes les routes à protéger
 });

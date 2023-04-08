@@ -33,4 +33,23 @@ class AdminController extends Controller
 
         return view('admin.users.index', ['users' => $users]);
     }
+    
+    public function approveUser(Request $request, User $user)
+    {
+        // Vérifiez si une formation a été choisie
+        if ($request->has('formation_id') && !empty($request->input('formation_id'))) {
+            $type = 'etudiant';
+        } else {
+            $type = 'enseignant';
+        }
+    
+        // Validez la demande d'inscription en mettant à jour le type d'utilisateur
+        $user->update([
+            'type' => $type,
+        ]);
+    
+        // Redirigez vers la page de la liste des utilisateurs avec un message de succès
+        return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été approuvé avec succès.");
+    }
+    
 }

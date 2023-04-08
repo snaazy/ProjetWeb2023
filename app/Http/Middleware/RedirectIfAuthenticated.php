@@ -15,16 +15,19 @@ class RedirectIfAuthenticated
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
+    public function handle(Request $request, Closure $next, ...$guards)
     {
-        $guards = empty($guards) ? [null] : $guards;
-
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+        $this->authenticate($request, $guards);
+    
+        if (Auth::check() && Auth::user()->type === null) {
+            return redirect('/inactive');
         }
-
+    
+        if (Auth::check()) {
+            return redirect(RouteServiceProvider::HOME);
+        }
+    
         return $next($request);
     }
+    
 }
