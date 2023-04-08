@@ -2,43 +2,50 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use App\Models\Formation;
+use App\Models\Cours;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    public $timestamps = false;
+
+    protected $hidden = ['mdp'];
+
+    protected $fillable = ['nom', 'prenom', 'login', 'mdp', 'formation_id', 'type'];
+
+    protected $attributes = [
+        'type' => 'user'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function formation(): BelongsTo
+    {
+        return $this->belongsTo(Formation::class);
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function cours(): HasMany
+    {
+        return $this->hasMany(Cours::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function isAdmin(){
+        return $this->type == 'admin';
+   }
+    
+
+    public function setPasswordAttribute(string $value)
+    {
+        $this->attributes['mdp'] = bcrypt($value);
+    }
 }

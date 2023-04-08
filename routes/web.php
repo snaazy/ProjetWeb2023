@@ -14,5 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
+
+
+// Route pour la page de connexion
+Route::get('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'showLoginForm'])
+    ->name('login');
+
+// Route pour la soumission du formulaire de connexion
+Route::post('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'login']);
+
+// Route pour la déconnexion
+Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])
+    ->name('logout');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::view('/admin', 'admin.home')->name('admin.home');
+});
+    
