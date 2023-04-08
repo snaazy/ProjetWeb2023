@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 
+
 // Route pour la page de connexion
 Route::get('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'showLoginForm'])
     ->name('login');
@@ -29,7 +30,16 @@ Route::post('/login', [App\Http\Controllers\AuthenticatedSessionController::clas
 Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])
     ->name('logout');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::view('/admin', 'admin.home')->name('admin.home');
-});
+    Route::middleware(['auth', 'is_admin'])->group(function () {
+        Route::view('/admin', 'admin.home')->name('admin.home');
+    });
     
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
+});
+
+
+Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRegistrationForm'])
+    ->name('register');
+Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
+

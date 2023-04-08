@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Formation;
 use App\Models\Cours;
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -17,6 +17,8 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $hidden = ['mdp'];
+
+    protected $passwordColumn = 'mdp';
 
     protected $fillable = ['nom', 'prenom', 'login', 'mdp', 'formation_id', 'type'];
 
@@ -34,15 +36,10 @@ class User extends Authenticatable
         return $this->hasMany(Cours::class);
     }
 
-    public function roles(): BelongsToMany
+    public function isAdmin()
     {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function isAdmin(){
         return $this->type == 'admin';
-   }
-    
+    }
 
     public function setPasswordAttribute(string $value)
     {

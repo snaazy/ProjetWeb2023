@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 /**
  * Contrôleur pour gérer les sessions authentifiées.
  */
@@ -32,24 +33,41 @@ class AuthenticatedSessionController extends Controller
             'login' => 'required|string',
             'mdp' => 'required|string'
         ]);
-
+    
         $credentials = ['login' => $request->input('login'), 'password' => $request->input('mdp')];
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $request->session()->flash('etat', 'Login successful');
-
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin.home');
+    
+        $user = User::where('login', $request->input('login'))->first();
+        if ($user) {
+            \Log::debug('Found user with login: ' . $request->input('login'));
+            \Log::debug('Stored password hash: ' . $user->mdp);
+    
+            if (Hash::check($request->input('mdp'), $user->mdp)) {
+                // Authentifiez l'utilisateur manuellement
+                Auth::login($user);
+                
+                $request->session()->regenerate();
+    
+                $request->session()->flash('etat', 'Login successful');
+    
+                if ($user->isAdmin()) {
+                    return redirect()->route('admin.home');
+                } else {
+                    return redirect('/');
+                }
             } else {
-                return redirect('/main');
+                \Log::debug('Hash::check failed for login: ' . $request->input('login'));
             }
+        } else {
+            \Log::debug('No user found with login: ' . $request->input('login'));
         }
-
+    
         return back()->withErrors([
             'login' => 'The provided credentials do not match our records.',
         ]);
     }
+    
+    
+
 
 
     /**

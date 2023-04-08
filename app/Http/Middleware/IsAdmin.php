@@ -21,7 +21,7 @@ class IsAdmin
         $user = Auth::user();
     
         if (!$user->isAdmin()) {
-            return redirect('admin.home');
+            return redirect('/main');
         }
     
         return $next($request);
