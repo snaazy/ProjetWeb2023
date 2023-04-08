@@ -55,6 +55,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::delete('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'destroy'])->name('admin.formations.destroy');
     Route::put('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'update'])->name('admin.formations.update');
     Route::post('/admin/users/{user}/approve', 'App\Http\Controllers\AdminController@approveUser')->name('admin.users.approve');
+    Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
     // ...
 });

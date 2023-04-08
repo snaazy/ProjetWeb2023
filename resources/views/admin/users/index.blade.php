@@ -27,6 +27,7 @@
                         <th>Prénom</th>
                         <th>Login</th>
                         <th>Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,12 +49,23 @@
                                 </form>
                             @endif
                         </td>
+                        <td>
+                            <form action="{{ route('users.destroy', $user) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                            
+                        </td>
                     </tr>
                 @endforeach
                 
                     </tbody>
                 </table>
-                {{ $users->links() }}
+                <div class="d-flex justify-content-center">
+                    {{ $users->links('pagination::bootstrap-4') }}
+                </div>
+                
             </div>
         </div>
     </div>

@@ -29,7 +29,7 @@ class AdminController extends Controller
             $query->where('type', $type);
         }
 
-        $users = $query->paginate(10);
+        $users = $query->paginate(5);
 
         return view('admin.users.index', ['users' => $users]);
     }
