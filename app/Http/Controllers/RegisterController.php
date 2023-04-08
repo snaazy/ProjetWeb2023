@@ -25,11 +25,13 @@ class RegisterController extends Controller
         ]);
     
         $type = $request->input('type');
-      
     
-        if ($type == 'admin' || $type == 'enseignant') {
+        if ($type == 'admin') {
             $formation_id = null;
-        } else {
+        } elseif ($type == 'enseignant') {
+            $formation_id = null;
+            $type = 'enseignant'; // Ajout de cette ligne pour modifier le type de l'utilisateur
+        } else {    
             $formation_id = $request->input('formation_id');
         }
     
@@ -39,12 +41,12 @@ class RegisterController extends Controller
             'login' => $request->input('login'),
             'mdp' => bcrypt($request->input('mdp')),
             'formation_id' => $formation_id,
-            'type' => $type == 'admin' ? 'admin' : 'user'
-
+            'type' => $type
         ]);
     
         return redirect('/login')->with('success', 'Votre compte a été créé avec succès. Veuillez attendre que l\'administrateur valide votre compte.');
     }
+    
     
     
     

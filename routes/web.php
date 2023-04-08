@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
 
 
 
@@ -66,6 +63,14 @@ Route::get('/inactive', function () {
     return view('inactive');
 })->name('inactive')->middleware('auth');
 
-Route::middleware(['ensureUserIsActive'])->group(function () {
-    // Ajoutez ici toutes les routes à protéger
+
+Route::middleware(['auth', 'ensureUserIsActive'])->group(function () {
+    Route::get('/', function () {
+        return view('main');
+    });
 });
+
+
+Route::get('/', function () {
+    return view('main');
+})->middleware('ensureUserIsActive');
