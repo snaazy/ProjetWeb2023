@@ -48,6 +48,9 @@
             <li class="nav-item">
               <a class="nav-link">Mes Commandes</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('profil') }}">Mon profil</a>
+        </li>
           <div class="vr"></div>
           <div class="vr"></div>
           <li class="nav-item">
@@ -57,7 +60,12 @@
               </svg></a>
           </li>
           @endauth
-
+          @if(auth()->check() && auth()->user()->isAdmin())
+          <li class="nav-item">
+              <a class="nav-link" href="{{ route('admin.users.index') }}">Portail Admin</a>
+          </li>  
+          <div class="vr"></div>          
+          @endif
             </ul>
         </div>
     </div>

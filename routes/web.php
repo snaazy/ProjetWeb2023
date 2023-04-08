@@ -36,6 +36,7 @@ Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::cla
     
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
+    Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
 });
 
 
@@ -43,3 +44,19 @@ Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRe
     ->name('register');
 Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
 
+
+
+Route::middleware(['auth', 'is_admin'])->group(function () {
+
+    Route::get('/admin/users', [App\Http\Controllers\App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
+    Route::resource('formations', App\Http\Controllers\FormationController::class);
+    Route::resource('admin/formations',App\Http\Controllers\FormationController::class)->except(['show']);
+    Route::get('admin/formations/create', [App\Http\Controllers\FormationController::class, 'create'])->name('admin.formations.create');
+    Route::post('admin/formations', [App\Http\Controllers\FormationController::class, 'store'])->name('admin.formations.store');
+    Route::get('admin/formations', [App\Http\Controllers\FormationController::class, 'index'])->name('admin.formations.index');
+    Route::get('/admin/formations/{formation}/edit', [App\Http\Controllers\FormationController::class, 'edit'])->name('admin.formations.edit');
+    Route::delete('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'destroy'])->name('admin.formations.destroy');
+    Route::put('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'update'])->name('admin.formations.update');
+    // ...
+    // ...
+});
