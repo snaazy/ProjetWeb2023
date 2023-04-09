@@ -51,5 +51,12 @@ class AdminController extends Controller
         // Redirigez vers la page de la liste des utilisateurs avec un message de succès
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été approuvé avec succès.");
     }
+
+    public function update(Request $request, User $user)
+{
+    $user->update(['type' => $request->input('type')]);
+    return redirect()->route('admin.users.index')->with('success', 'Type utilisateur modifié avec succès.');
+}
+
     
 }

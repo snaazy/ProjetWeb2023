@@ -28,9 +28,11 @@ class UserController extends Controller
      */
     public function profil()
     {
-        $user = auth()->user();
-        return view('user.profile', compact('user'));
+        $user = Auth::user();
+        $formation = optional($user->formation)->intitule ?? "non-étudiant";
+        return view('user.profile', compact('user', 'formation'));
     }
+    
 
 
     public function destroy(User $user)
@@ -38,6 +40,24 @@ class UserController extends Controller
     $user->delete();
     return redirect()->route('admin.users.index')->with('success', 'L\'utilisateur a été supprimé avec succès.');
 }
+
+public function update(Request $request)
+{
+    $user = Auth::user();
+
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenom' => 'required|string|max:255',
+    ]);
+
+    $user->update([
+        'nom' => $request->nom,
+        'prenom' => $request->prenom,
+    ]);
+
+    return redirect()->route('profil')->with('success', 'Les informations ont été mises à jour avec succès.');
+}
+
 
 
 }

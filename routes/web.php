@@ -56,6 +56,8 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'update'])->name('admin.formations.update');
     Route::post('/admin/users/{user}/approve', 'App\Http\Controllers\AdminController@approveUser')->name('admin.users.approve');
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.users.update');
+
 
     // ...
 });
@@ -69,9 +71,15 @@ Route::middleware(['auth', 'ensureUserIsActive'])->group(function () {
     Route::get('/', function () {
         return view('main');
     });
+    Route::get('/planning', function () {
+        return view('planning');
+    })->name('planning');
+    
 });
 
 
 Route::get('/', function () {
     return view('main');
-})->middleware('ensureUserIsActive');
+})->middleware('ensureUserIsActive')->name('main');
+
+Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');

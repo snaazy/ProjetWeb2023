@@ -16,6 +16,7 @@
                         <option value="">Tous les types</option>
                         <option value="etudiant" {{ request('type') == 'etudiant' ? 'selected' : '' }}>Étudiant</option>
                         <option value="enseignant" {{ request('type') == 'enseignant' ? 'selected' : '' }}>Enseignant</option>
+                        <option value="admin" {{ request('type') == 'admin' ? 'selected' : '' }}>Administrateur</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Filtrer</button>
@@ -55,7 +56,19 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Supprimer</button>
                             </form>
-                            
+                            <form action="{{ route('admin.users.update', $user) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">                               
+                                        <select name="type" required>
+                                            <option value="">Sélectionner un type</option>
+                                            <option value="etudiant" {{ $user->type == 'etudiant' ? 'selected' : '' }}>Étudiant</option>
+                                            <option value="enseignant" {{ $user->type == 'enseignant' ? 'selected' : '' }}>Enseignant</option>
+                                            <option value="admin" {{ $user->type == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        </select>
+                                    <button type="submit" class="btn btn-primary">Modifier</button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
