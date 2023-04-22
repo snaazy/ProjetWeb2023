@@ -43,8 +43,11 @@
                         </form>
                     </div>
                 </div>
+                
                 <div class="card bg-light p-3 mt-4">
+                  
                     <div class="card-body">
+                        @if(Auth::user()->type == 'etudiant')
                         <h5 class="card-title">Ma formation</h5>
                         <div class="mb-3">
                             <label for="formation" class="form-label">Formation :</label>
@@ -54,7 +57,36 @@
                             <label for="etablissement" class="form-label">Etablissement :</label>
                             <input type="text" class="form-control" id="etablissement" value="Université Paris-Est Créteil" readonly>
                         </div>
+                    @endif
                     </div>
+                    @if(Auth::user()->type == 'enseignant')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Cours assignés</h2>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Intitulé</th>
+                            <th>Formation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(Auth::user()->assignedCourses as $course)
+                            <tr>
+                                <td>{{ $course->id }}</td>
+                                <td>{{ $course->intitule }}</td>
+                                <td>{{ $course->formation->intitule }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+@endif
+
                 </div>
             </div>
         </div>

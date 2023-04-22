@@ -38,6 +38,16 @@ class AuthenticatedSessionController extends Controller
     
         $user = User::where('login', $request->input('login'))->first();
         if ($user) {
+            if ($user->type === NULL) {
+                return back()->withErrors([
+                    'login' => 'Votre inscription a été refusée ou bien mise en attente.',
+                ]);
+            }
+            
+            // Le reste du code de la méthode login
+        }
+        
+        if ($user) {
             \Log::debug('Found user with login: ' . $request->input('login'));
             \Log::debug('Stored password hash: ' . $user->mdp);
     

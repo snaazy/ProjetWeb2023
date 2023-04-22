@@ -48,6 +48,13 @@
                                     </select>
                                     <button type="submit" class="btn btn-success">Approuver</button>
                                 </form>
+                                <!-- Ajoutez ce bouton à côté du bouton "Approuver" -->
+<form action="{{ route('admin.users.refuse', $user->id) }}" method="post" class="d-inline">
+    @csrf
+    @method('PATCH')
+    <button type="submit" class="btn btn-danger">Refuser</button>
+</form>
+
                             @endif
                         </td>
                         <td>

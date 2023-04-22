@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Formation;
-use App\Models\Cours;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,8 +33,13 @@ class User extends Authenticatable
 
     public function cours(): HasMany
     {
-        return $this->hasMany(Cours::class);
+        return $this->hasMany(Course::class);
     }
+    public function courses()
+{
+    return $this->belongsToMany(Course::class, 'cours_users', 'user_id', 'cours_id');
+}
+
 
     public function isAdmin()
     {
@@ -45,4 +50,14 @@ class User extends Authenticatable
     {
         $this->attributes['mdp'] = bcrypt($value);
     }
+
+    public function assignedCourses()
+{
+    if ($this->type === 'enseignant') {
+        return $this->hasMany(Course::class, 'user_id');
+    }
+
+    return null;
+}
+
 }

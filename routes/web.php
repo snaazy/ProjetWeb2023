@@ -57,9 +57,16 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/admin/users/{user}/approve', 'App\Http\Controllers\AdminController@approveUser')->name('admin.users.approve');
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.users.update');
+    Route::patch('/admin/users/{user}/refuse', [App\Http\Controllers\AdminController::class, 'refuseUser'])->name('admin.users.refuse');
+    Route::get('/cours', [App\Http\Controllers\CourseController::class, 'index'])->name('cours.index');
+    Route::get('/cours/create', [App\Http\Controllers\CourseController::class, 'create'])->name('cours.create');
+    Route::post('/cours', [App\Http\Controllers\CourseController::class, 'store'])->name('cours.store');
+    Route::get('/cours/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('cours.show');
+    Route::get('/cours/{id}/edit', [App\Http\Controllers\CourseController::class, 'edit'])->name('cours.edit');
+    Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
+    Route::delete('/cours/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('cours.destroy');
 
-
-    // ...
+    
 });
 
 Route::get('/inactive', function () {
@@ -83,3 +90,9 @@ Route::get('/', function () {
 })->middleware('ensureUserIsActive')->name('main');
 
 Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
+
+Route::get('/student/courses', [App\Http\Controllers\CourseController::class, 'studentCourses'])->name('student.courses');
+Route::post('/student/courses/{id}/enroll', [App\Http\Controllers\CourseController::class, 'enroll'])->name('student.enroll');
+Route::post('/student/courses/{id}/unenroll', [App\Http\Controllers\CourseController::class, 'unenroll'])->name('student.unenroll');
+Route::get('/student/my-courses', [App\Http\Controllers\CourseController::class, 'myCourses'])->name('student.mycourses');

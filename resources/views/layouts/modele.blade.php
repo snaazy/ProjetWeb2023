@@ -16,6 +16,7 @@
             background-color: rgb(82, 34, 106);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             padding: 0.5rem 1rem;
+          
         }
 
         .navbar-brand,
@@ -59,23 +60,21 @@
         }
 
         .footer {
-    background-color: #6c278e;
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
+            background-color: #6c278e;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
 
+</style>
 
-
-
-    </style>
 </head>
 <body class="@yield('body-class')">
 <nav class="navbar navbar-expand-lg">
@@ -113,8 +112,9 @@
                 @endauth
                 @if(auth()->check() && auth()->user()->isAdmin())
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ route('admin.users.index') }}">Portail Admin</a>
+                  <a class="nav-link" href="{{ route('admin.home') }}">Portail Admin</a>
                 </li>  
+                
                     
                 @endif
             </ul>
