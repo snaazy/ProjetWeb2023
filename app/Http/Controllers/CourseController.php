@@ -50,36 +50,23 @@ class CourseController extends Controller
     $course = Course::with(['formation', 'user'])->findOrFail($id);
     return view('cours.show', compact('course'));
 }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-{
-    $course = Course::findOrFail($id);
-    $formations = Formation::all();
-    $enseignants = User::where('type', 'enseignant')->get();
-    return view('cours.edit', compact('course', 'formations', 'enseignants'));
-}
+    
    
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'intitule' => 'required|string|max:50',
-        'formation_id' => 'required|integer|exists:formations,id',
-        'user_id' => 'required|integer|exists:users,id',
-    ]);
-
-    $course = Course::findOrFail($id);
-    $course->update([
-        'intitule' => $request->input('intitule'),
-        'formation_id' => $request->input('formation_id'),
-        'user_id' => $request->input('user_id'),
-    ]);
-
-    return redirect()->route('cours.index')->with('success', 'Le cours a été mis à jour avec succès et l\'enseignant a été mis à jour.');
-}
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'intitule' => 'required',
+            'user_id' => 'required',
+        ]);
+    
+        $course = Course::findOrFail($id);
+        $course->intitule = $request->intitule;
+        $course->user_id = $request->user_id;
+        $course->save();
+    
+        return redirect()->route('cours.show', $course->id)->with('success', 'Le cours a été modifié avec succès.');
+    }
+    
 
 public function destroy($id)
 {
@@ -90,17 +77,22 @@ public function destroy($id)
 }
 
 
-public function studentCourses()
+public function studentCourses(Request $request)
 {
     $user = auth()->user();
     $formation_id = $user->formation_id;
+    $search = $request->input('search');
 
     $courses = Course::with(['formation', 'user'])
                     ->where('formation_id', $formation_id)
+                    ->when($search, function ($query, $search) {
+                        return $query->where('intitule', 'like', '%' . $search . '%');
+                    })
                     ->get();
 
     return view('cours.student', compact('courses'));
 }
+
 
 public function enroll(int $id)
 {
@@ -140,6 +132,7 @@ public function myCourses()
 
     return view('cours.mycourses', compact('courses'));
 }
+
 
 
 
