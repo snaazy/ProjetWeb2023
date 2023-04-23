@@ -15,21 +15,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    @if(session('danger'))
-                        <div class="alert alert-danger">
-                            {{ session('danger') }}
-                        </div>
-                    @endif
-                    @if(session('warning'))
-                        <div class="alert alert-warning">
-                            {{ session('warning') }}
-                        </div>
-                    @endif
+                        @foreach(['success', 'danger', 'warning'] as $alert)
+                        @if(session($alert))
+                            <div class="alert alert-{{ $alert }}">{!! session($alert) !!}</div>
+                        @endif
+                    @endforeach
                     
                         @foreach($courses as $course)
                             <tr>

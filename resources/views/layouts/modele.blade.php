@@ -71,7 +71,13 @@
             align-items: center;
             justify-content: center;
             
+
         }
+        body {
+  min-height: calc(100vh - 100px); 
+  margin-bottom: 100px; 
+}
+
 
 </style>
 

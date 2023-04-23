@@ -50,20 +50,23 @@ class AdminController extends Controller
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été approuvé avec succès.");
     }
 
+
+
     public function update(Request $request, User $user)
-{
-    $user->update(['type' => $request->input('type')]);
-    return redirect()->route('admin.users.index')->with('success', 'Type utilisateur modifié avec succès.');
-}
-public function refuseUser(Request $request, User $user)
-{
-    $user->update([
-        'type' => NULL,
-    ]);
-
-    return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été refusé avec succès.");
-}
-
+    {
+        $user->update(['type' => $request->input('type')]);
+        return redirect()->route('admin.users.index')->with('success', 'Type utilisateur modifié avec succès.');
+    }
+    
+    public function refuseUser(Request $request, User $user)
+    {
+        $user->update([
+            'type' => NULL,
+        ]);
+    
+        return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été refusé avec succès.");
+    }
+    
 
     
 }

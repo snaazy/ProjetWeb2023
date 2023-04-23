@@ -15,6 +15,11 @@
             {{ session('error') }}
         </div>
     @endif
+    @foreach(['success', 'danger', 'warning'] as $alert)
+    @if(session($alert))
+        <div class="alert alert-{{ $alert }}">{!! session($alert) !!}</div>
+    @endif
+@endforeach
 
     <form method="post" action="{{ route('login') }}">
         @csrf

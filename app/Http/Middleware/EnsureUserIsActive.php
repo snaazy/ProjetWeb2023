@@ -17,7 +17,7 @@ class EnsureUserIsActive
     {
         $user = auth()->user();
     
-        if (auth()->check() && ($user->type === null || $user->type === 'etudiant')) {
+        if (auth()->check() && ($user->type === null)) {
             auth()->logout();
             return redirect('/login')->with('error', 'Votre compte est en attente d\'approbation par un administrateur.');
         }

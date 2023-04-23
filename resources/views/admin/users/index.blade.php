@@ -40,20 +40,21 @@
                         <td>{{ $user->type }}</td>
                         <td>
                             @if($user->type === null)
-                                <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
+                            <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
+                                @csrf
+                                <select name="type" required>
+                                    <option value="etudiant">Étudiant</option>
+                                </select>
+                                <button type="submit" class="btn btn-success">Approuver</button>
+                            </form>
+                            
+                               
+                                <form action="{{ route('admin.users.refuse', $user->id) }}" method="post" class="d-inline">
                                     @csrf
-                                    <select name="type" required>
-                                        <option value="etudiant">Étudiant</option>
-                                        <option value="enseignant">Enseignant</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-success">Approuver</button>
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-danger">Refuser</button>
                                 </form>
-                                <!-- Ajoutez ce bouton à côté du bouton "Approuver" -->
-<form action="{{ route('admin.users.refuse', $user->id) }}" method="post" class="d-inline">
-    @csrf
-    @method('PATCH')
-    <button type="submit" class="btn btn-danger">Refuser</button>
-</form>
+                                
 
                             @endif
                         </td>

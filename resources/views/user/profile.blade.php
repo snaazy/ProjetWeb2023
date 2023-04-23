@@ -43,6 +43,33 @@
                         </form>
                     </div>
                 </div>
+                <div class="card bg-light p-3 mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Mes cours</h5>
+                        @if(count($user->courses) > 0)
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Intitulé</th>
+                                        <th>Enseignant</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($user->courses as $course)
+                                        <tr>
+                                            <td>{{ $course->id }}</td>
+                                            <td>{{ $course->intitule }}</td>
+                                            <td>{{ $course->user->prenom }} {{ $course->user->nom }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>Vous n'êtes inscrit à aucun cours pour le moment.</p>
+                        @endif
+                    </div>
+                </div>
                 
                 <div class="card bg-light p-3 mt-4">
                   
@@ -59,6 +86,7 @@
                         </div>
                     @endif
                     </div>
+                    
                     @if(Auth::user()->type == 'enseignant')
     <div class="container">
         <div class="row">
@@ -86,6 +114,7 @@
         </div>
     </div>
 @endif
+
 
                 </div>
             </div>
