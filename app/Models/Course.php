@@ -33,4 +33,10 @@ class Course extends Model
     {
         return $this->belongsToMany(User::class, 'cours_users', 'cours_id', 'user_id');
     }
+
+    public function plannings()
+{
+    return $this->hasMany(Planning::class);
+}
+
 }
