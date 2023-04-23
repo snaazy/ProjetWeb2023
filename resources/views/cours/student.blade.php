@@ -21,27 +21,35 @@
                         @endif
                     @endforeach
                     
-                        @foreach($courses as $course)
-                            <tr>
-                                <td>{{ $course->id }}</td>
-                                <td>{{ $course->intitule }}</td>
-                                <td>{{ $course->user->nom }} {{ $course->user->prenom }}</td>
-                                <td>{{ $course->formation->intitule }}</td>
-                            </tr>
-                            <td>
+                    @foreach($courses as $course)
+                    <tr>
+                        <td>{{ $course->id }}</td>
+                        <td>{{ $course->intitule }}</td>
+                        <td>{{ $course->user->nom }} {{ $course->user->prenom }}</td>
+                        <td>{{ $course->formation->intitule }}</td>
+                        <td>
+                            @if(Auth::user()->courses->contains($course))
+                                <button type="button" class="btn btn-success" disabled>Inscrit</button>
+                            @else
                                 <form method="POST" action="{{ route('student.enroll', $course->id) }}">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">S'inscrire</button>
                                 </form>
-                            </td>
-                            <td>
+                            @endif
+                        </td>
+                        <td>
+                            @if(Auth::user()->courses->contains($course))
                                 <form method="POST" action="{{ route('student.unenroll', $course->id) }}">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">Se désinscrire</button>
                                 </form>
-                            </td>
+                            @else
+                                <button type="button" class="btn btn-secondary" disabled>Non inscrit</button>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
                 
-                        @endforeach
                         <form method="GET" action="{{ route('student.courses') }}" class="mb-3">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="search" placeholder="Rechercher un cours par intitulé" value="{{ request('search') }}">

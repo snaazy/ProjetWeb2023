@@ -63,6 +63,7 @@ class AdminController extends Controller
         $user->update([
             'type' => NULL,
         ]);
+        // $user->delete();
     
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été refusé avec succès.");
     }
