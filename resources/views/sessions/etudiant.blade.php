@@ -30,9 +30,13 @@
                                     $heureDebut = $dateDebut->format('G');
                                 @endphp
                                 @if($dateDebut->format('N') == $jour && $heureDebut == $heure)
-                                    <div class="bg-info text-white p-2">
-                                        {{ $session->intitule }} {{ $session->prenom }} {{ $session->nom }}
-                                    </div>
+                                <div class="bg-info text-white p-2">
+                                    {{ $session->intitule }}<br>
+                                    {{ $session->prenom }} {{ $session->nom }}<br>
+                                    {{ date('H:i', strtotime($session->date_debut)) }} - {{ date('H:i', strtotime($session->date_fin)) }}
+                                </div>
+                                
+                                
                                     @php
                                         $sessionTrouvee = true;
                                         break;
