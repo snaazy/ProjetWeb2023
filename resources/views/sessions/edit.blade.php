@@ -10,7 +10,8 @@
 
         <div class="form-group">
             <label for="date_debut">Date de début</label>
-            <input type="datetime-local" class="form-control @error('date_debut') is-invalid @enderror" name="date_debut" value="{{ old('date_debut', $session->date_debut->format('Y-m-d\TH:i:s')) }}" required>
+            <input type="datetime-local" class="form-control @error('date_debut') is-invalid @enderror" name="date_debut" value="{{ old('date_debut', \Carbon\Carbon::parse($session->date_debut)->format('Y-m-d\TH:i:s')) }}" required>
+
             @error('date_debut')
             <span class="invalid-feedback">{{ $message }}</span>
             @enderror
@@ -18,7 +19,8 @@
 
         <div class="form-group">
             <label for="date_fin">Date de fin</label>
-            <input type="datetime-local" class="form-control @error('date_fin') is-invalid @enderror" name="date_fin" value="{{ old('date_fin', $session->date_fin->format('Y-m-d\TH:i:s')) }}" required>
+            <input type="datetime-local" class="form-control @error('date_fin') is-invalid @enderror" name="date_fin" value="{{ old('date_fin', \Carbon\Carbon::parse($session->date_fin)->format('Y-m-d\TH:i:s')) }}" required>
+
             @error('date_fin')
             <span class="invalid-feedback">{{ $message }}</span>
             @enderror

@@ -25,7 +25,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="{{ route('cours.index') }}" class="btn btn-primary">Retour à la liste des cours</a>
+                <a href="{{ route('sessions.index') }}" class="btn btn-primary">Retour à la liste des cours</a>
                 <a href="{{ route('cours.edit', $course->id) }}" class="btn btn-warning">Modifier</a>
                 <form action="{{ route('cours.destroy', $course->id) }}" method="POST" style="display:inline;">
                     @csrf

@@ -13,10 +13,14 @@ class SessionController extends Controller
 
 
     public function index()
-{
-    $sessions = Planning::all();
-    return view('sessions.index', compact('sessions'));
-}
+    {
+        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                    ->join('users', 'cours.user_id', '=', 'users.id')
+                    ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
+                    ->get();
+        return view('sessions.index', compact('sessions'));
+    }
+    
 
 
     public function create()
@@ -28,27 +32,22 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cours_id' => 'required|integer|exists:cours,id',
-            'date_debut' => 'required|date|before:date_fin',
+            'date_debut' => 'required|date',
             'date_fin' => 'required|date|after:date_debut',
+           
         ]);
     
-        $session = new Session([
-            'cours_id' => $request->input('cours_id'),
+        $course = Course::findOrFail($request->input('course_id'));
+    
+        $session = new Planning([
             'date_debut' => $request->input('date_debut'),
             'date_fin' => $request->input('date_fin'),
         ]);
     
-        // Récupérer l'utilisateur connecté et l'associer à la nouvelle séance de cours
-        $user = auth()->user();
-        $session->user()->associate($user);
+        $course->plannings()->save($session);
     
-        $session->save();
-    
-        return redirect()->route('sessions.index')->with('success', 'La séance de cours a été créée avec succès.');
+        return redirect()->route('cours.show', $course->id)->with('success', 'La séance de cours a été créée avec succès.');
     }
-    
-    
     
 
     public function edit($id)
@@ -78,9 +77,12 @@ class SessionController extends Controller
         $courseId = $session->cours->id;
         $session->delete();
 
-        return redirect()->route('sessions.show', $courseId)->with('success', 'La séance de cours a été supprimée avec succès.');
+        return redirect()->route('sessions.index', $courseId)->with('success', 'La séance de cours a été supprimée avec succès.');
     }
+
+
 
   
 
+    
 }
