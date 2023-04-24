@@ -3,22 +3,14 @@
 @section('content')
     <div class="container">
         <h1>Liste des séances de cours</h1>
-        <a href="{{ route('sessions.planning') }}" class="btn btn-primary mb-3">Voir le planning</a>
-        <a href="{{ route('sessions.create') }}" class="btn btn-primary mb-3">Creer une séance de cours</a>
         <div class="btn-group mb-3" role="group">
             <a href="{{ route('sessions.index') }}" class="btn btn-primary">Toutes les séances</a>
-           
-            
+            <a href="{{ route('sessions.planning') }}" class="btn btn-primary">Voir le planning</a>
+            <a href="{{ route('sessions.create') }}" class="btn btn-primary">Creer une séance de cours</a>
         </div>
-        
-          <table class="table table-bordered table-striped">
-            <!-- contenu de la table -->
-          </table>
-          
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    
                     <th>Intitulé du cours</th>
                     <th>Date de début</th>
                     <th>Date de fin</th>
@@ -34,11 +26,15 @@
                         <td>{{ $session->date_fin }}</td>
                         <td>{{ $session->prenom }} {{ $session->nom }}</td>
                         <td>
-                            <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">Modifier</a>
+                            <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Modifier
+                            </a>
                             <form action="{{ route('sessions.destroy', $session->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette séance de cours ?')">Supprimer</button>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette séance de cours ?')">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -46,4 +42,40 @@
             </tbody>
         </table>
     </div>
+
+
+
+    <style>
+.table {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.table th, .table td {
+    padding: .5rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+.table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+        </style>
+
 @endsection
+
