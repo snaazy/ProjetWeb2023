@@ -44,12 +44,31 @@ class CourseController extends Controller
     
         return redirect()->route('cours.index')->with('success', 'Le cours a été créé avec succès et l\'enseignant a été associé.');
     }
-
+/* 
     public function show($id)
 {
     $course = Course::with(['formation', 'user'])->findOrFail($id);
     return view('cours.show', compact('course'));
+} */
+
+public function show($id)
+{
+    $course = Course::with(['formation', 'user', 'plannings'])->findOrFail($id);
+    return view('cours.show', compact('course'));
 }
+
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $course = Course::findOrFail($id);
+        $formations = Formation::all();
+        $enseignants = User::where('type', 'enseignant')->get();
+        return view('cours.edit', compact('course', 'formations', 'enseignants'));
+    }
     
    
     public function update(Request $request, $id)

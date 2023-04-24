@@ -10,6 +10,7 @@ class Course extends Model
     use HasFactory;
 
     protected $table = 'cours';
+    
 
 
     protected $fillable = [
@@ -35,10 +36,12 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'cours_users', 'cours_id', 'user_id');
     }
 
+   
     public function plannings()
-    {
-        return $this->hasMany(Planning::class, 'cours_id');
-    }
+{
+    return $this->hasMany(Planning::class, 'cours_id');
+}
+
     
 
 }

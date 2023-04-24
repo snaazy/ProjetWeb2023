@@ -10,14 +10,18 @@ class Planning extends Model
     use HasFactory;
     public $timestamps = false;
 
-
-    protected $fillable = ['cours_id', 'date_debut', 'date_fin'];
+    protected $fillable = [
+        'date_debut',
+        'date_fin',
+    ];
 
     public function cours()
     {
         return $this->belongsTo(Course::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id', Course::class);
+    }
     
 }
-
-

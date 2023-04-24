@@ -76,12 +76,19 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 });
 
 
+Route::get('/sessions/create', [App\Http\Controllers\SessionController::class, 'create'])->name('sessions.create');
+Route::post('/sessions', [App\Http\Controllers\SessionController::class, 'store'])->name('sessions.store');
+Route::get('/sessions/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('sessions.edit');
+Route::put('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('sessions.update');
+Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
+Route::get('/cours/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('cours.show');
+Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
 
-Route::post('/planning', [App\Http\Controllers\PlanningController::class, 'create'])->name('planning.create');
-Route::put('/planning/{id}', [App\Http\Controllers\PlanningController::class, 'edit'])->name('planning.edit');
-Route::delete('/planning/{id}', [App\Http\Controllers\PlanningController::class, 'delete'])->name('planning.delete');
-Route::get('/planning', [App\Http\Controllers\PlanningController::class, 'index'])->name('planning.index');
-Route::post('/planning', [App\Http\Controllers\PlanningController::class, 'store'])->name('planning.store');
+
+
+
+
+
 
 
 Route::get('/inactive', function () {
