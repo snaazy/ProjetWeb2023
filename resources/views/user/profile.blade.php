@@ -88,6 +88,15 @@
                     </div>
                     
                     @if(Auth::user()->type == 'enseignant')
+
+                    <div class="card bg-light p-3 mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Gestion de planning</h5>
+                            <a href="{{ route('planning.index') }}" class="btn btn-primary mt-3">Accéder à la gestion des plannings</a>
+                        </div>
+                    </div>
+                    
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">

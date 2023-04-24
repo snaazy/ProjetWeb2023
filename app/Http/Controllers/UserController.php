@@ -58,6 +58,22 @@ public function update(Request $request)
     return redirect()->route('profil')->with('success', 'Les informations ont été mises à jour avec succès.');
 }
 
+public function show()
+{
+    $user = Auth::user();
+
+    if ($user->type == 'etudiant') {
+        $courses = $user->courses;
+    } else {
+        $courses = $user->assignedCourses;
+    }
+
+    return view('profil', [
+        'user' => $user,
+        'courses' => $courses,
+    ]);
+}
+
 
 
 }

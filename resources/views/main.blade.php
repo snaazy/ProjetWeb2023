@@ -7,7 +7,7 @@
         <div class="col-md-12 text-center">
             <h1>Planning</h1>
             <p>Sur ce site, vous pouvez consulter le planning des formations disponibles.</p>
-            <a href="{{ route('planning') }}" class="btn btn-primary">Voir le planning</a>
+            <a href="{{ route('planning.index') }}" class="btn btn-primary">Voir le planning</a>
             <a href="{{ route('student.courses') }}" class="btn btn-primary">Voir les cours de ma formation</a>
 
         </div>

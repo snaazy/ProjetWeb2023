@@ -27,6 +27,7 @@ class Course extends Model
     {
         return $this->belongsTo(Formation::class);
     }
+    
 
     // Ajoutez cette méthode si vous avez besoin de récupérer les étudiants associés à un cours
     public function students()
@@ -35,8 +36,9 @@ class Course extends Model
     }
 
     public function plannings()
-{
-    return $this->hasMany(Planning::class);
-}
+    {
+        return $this->hasMany(Planning::class, 'cours_id');
+    }
+    
 
 }

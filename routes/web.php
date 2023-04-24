@@ -34,7 +34,9 @@ Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::cla
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
+    
 });
+
 
 
 Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRegistrationForm'])
@@ -66,9 +68,21 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     Route::delete('/cours/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('cours.destroy');
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
-
+    //planning ; attention aux autorisations !!!
+    // Planning routes
+   
+    
     
 });
+
+
+
+Route::post('/planning', [App\Http\Controllers\PlanningController::class, 'create'])->name('planning.create');
+Route::put('/planning/{id}', [App\Http\Controllers\PlanningController::class, 'edit'])->name('planning.edit');
+Route::delete('/planning/{id}', [App\Http\Controllers\PlanningController::class, 'delete'])->name('planning.delete');
+Route::get('/planning', [App\Http\Controllers\PlanningController::class, 'index'])->name('planning.index');
+Route::post('/planning', [App\Http\Controllers\PlanningController::class, 'store'])->name('planning.store');
+
 
 Route::get('/inactive', function () {
     return view('inactive');
@@ -79,9 +93,7 @@ Route::middleware(['auth', 'ensureUserIsActive'])->group(function () {
     Route::get('/', function () {
         return view('main');
     });
-    Route::get('/planning', function () {
-        return view('planning');
-    })->name('planning');
+   
     
 });
 

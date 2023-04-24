@@ -2,70 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
-use App\Models\Planning;
 use Illuminate\Http\Request;
+use App\Models\Planning;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Course;
+
+
 
 class PlanningController extends Controller
 {
-    public function create($course_id)
+
+    public function index()
     {
-        $course = Course::findOrFail($course_id);
-        return view('plannings.create', compact('course'));
+        // Récupérer l'utilisateur connecté
+        $user = Auth::user();
+    
+        // Vérifier si l'utilisateur est un enseignant ou un étudiant
+        if ($user->type == 'enseignant') {
+            // Récupérer toutes les séances de cours associées à l'enseignant
+            $plannings = Planning::whereIn('cours_id', $user->cours->pluck('id'))->get();
+        } else {
+            // Récupérer toutes les séances de cours associées à l'étudiant
+            $plannings = Planning::whereIn('cours_id', $user->cours->pluck('id'))->get();
+        }
+        
+        // Récupérer tous les cours pour les afficher dans le formulaire de création
+        $courses = Course::all();
+    
+        return view('planning.index', compact('plannings', 'courses'));
+    }
+    
+
+
+public function store(Request $request)
+{
+    $planning = new Planning();
+    $planning->cours_id = $request->input('cours_id');
+    $planning->date_debut = $request->input('date_debut');
+    $planning->date_fin = $request->input('date_fin');
+    $planning->save();
+
+    return redirect()->back()->with('success', 'La séance de cours a été créée avec succès.');
+}
+
+public function create()
+{
+    // Récupérer tous les cours pour les afficher dans le formulaire de création
+    $courses = Course::all();
+
+    return view('planning.create', compact('courses'));
+}
+
+
+    public function edit(Request $request, $id)
+    {
+        $planning = Planning::find($id);
+        $planning->date_debut = $request->input('date_debut');
+        $planning->date_fin = $request->input('date_fin');
+        $planning->save();
+
+        return redirect()->back()->with('success', 'La séance de cours a été mise à jour avec succès.');
     }
 
-    public function store(Request $request)
+    public function delete($id)
     {
-        $request->validate([
-            'cours_id' => 'required',
-            'date_debut' => 'required|date',
-            'date_fin' => 'required|date|after_or_equal:date_debut',
-        ]);
-
-        Planning::create($request->all());
-
-        return redirect()->route('planning.byCourse', $request->cours_id)
-            ->with('success', 'Séance de cours créée avec succès');
-    }
-
-    public function edit($id)
-    {
-        $planning = Planning::findOrFail($id);
-        return view('plannings.edit', compact('planning'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'cours_id' => 'required',
-            'date_debut' => 'required|date',
-            'date_fin' => 'required|date|after_or_equal:date_debut',
-        ]);
-
-        $planning = Planning::findOrFail($id);
-        $planning->update($request->all());
-
-        return redirect()->route('planning.byCourse', $request->cours_id)
-            ->with('success', 'Séance de cours mise à jour avec succès');
-    }
-
-    public function destroy($id)
-    {
-        $planning = Planning::findOrFail($id);
+        $planning = Planning::find($id);
         $planning->delete();
 
-        return redirect()->route('planning.byCourse', $planning->cours_id)
-            ->with('success', 'Séance de cours supprimée avec succès');
-    }
-
-    public function byCourse($course_id)
-    {
-        $course = Course::with('plannings')->findOrFail($course_id);
-        return view('plannings.byCourse', compact('course'));
-    }
-
-    public function byWeek(Request $request)
-    {
-        // À compléter avec la logique pour récupérer les séances par semaine
+        return redirect()->back()->with('success', 'La séance de cours a été supprimée avec succès.');
     }
 }

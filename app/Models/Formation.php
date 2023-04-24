@@ -20,6 +20,7 @@ class Formation extends Model
 
     public function cours()
     {
-        return $this->hasMany(Cours::class);
+        return $this->hasMany(Course::class);
     }
+    
 }
