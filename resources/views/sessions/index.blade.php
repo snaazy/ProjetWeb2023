@@ -4,8 +4,9 @@
     <style>
         .title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
+            font-size: 3rem;
             color: #4A4A4A;
+            padding: 20px;
         }
         .table {
             font-size: 14px;
@@ -35,15 +36,20 @@
         }
         .table-hover tbody tr:hover {
             background-color: #f5f5f5;
+
         }
+
+        
     </style>
     <div class="container">
         <h1 class="title">Liste des séances de cours</h1>
         <div class="btn-group mb-3" role="group">
             <a href="{{ route('sessions.index') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i> Toutes les séances</a>
-            <a href="{{ route('sessions.planning') }}" class="btn btn-outline-primary"><i class="bi bi-calendar3"></i> Voir le planning</a>
-            <a href="{{ route('sessions.create') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Creer une séance de cours</a>
+            <a href="{{ route('sessions.create') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Créer une séance de cours</a>
+            <a href="{{ route('sessions.index', ['week' => 'current']) }}" class="btn btn-outline-primary"><i class="bi bi-calendar-week"></i> Séances de la semaine</a>
         </div>
+        
+        
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>

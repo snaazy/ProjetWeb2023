@@ -11,15 +11,25 @@ class SessionController extends Controller
 
 {
 
-    public function index()
-    {
-        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
-                    ->join('users', 'cours.user_id', '=', 'users.id')
-                    ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
-                    ->paginate(5);
-    
-        return view('sessions.index', compact('sessions'));
+    public function index(Request $request)
+{
+    $week = $request->input('week');
+
+    $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                ->join('users', 'cours.user_id', '=', 'users.id')
+                ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
+
+    if ($week == 'current') {
+        $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+        $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+        $sessions = $sessions->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
     }
+
+    $sessions = $sessions->paginate(5);
+
+    return view('sessions.index', compact('sessions'));
+}
+
     
 
 
