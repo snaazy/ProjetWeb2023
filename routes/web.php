@@ -91,10 +91,9 @@ Route::get('/sessions/{session}/edit', [App\Http\Controllers\SessionController::
 Route::put('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('sessions.update');
 Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
 
+// planning etudiant
 
-// pour étudiant : 
-Route::get('/planning/etudiant', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning')->middleware('auth');
-
+Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning');
 
 Route::get('/inactive', function () {
     return view('inactive');
