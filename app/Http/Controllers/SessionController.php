@@ -11,13 +11,13 @@ class SessionController extends Controller
 
 {
 
-
     public function index()
     {
         $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
                     ->join('users', 'cours.user_id', '=', 'users.id')
                     ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
-                    ->get();
+                    ->paginate(5);
+    
         return view('sessions.index', compact('sessions'));
     }
     
