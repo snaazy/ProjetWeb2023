@@ -74,13 +74,15 @@
 
 </div>
 
-
+@if(Auth::user()->type == 'enseignant')
 <div class="card bg-light p-3 mt-4">
+    
 <h3 class="card-title">Gestion de planning</h3>
 <hr class="my-4">
 <a href="{{ route('sessions.index') }}" class="btn btn-primary mt-3">Accéder à la gestion des plannings</a>
 
 </div>
+@endif
 
 <div class="card bg-light p-3 mt-4">
     

@@ -36,19 +36,13 @@ class AdminController extends Controller
     
     public function approveUser(Request $request, User $user)
     {
-        
-        if ($request->has('formation_id') && !empty($request->input('formation_id'))) {
-            $type = 'etudiant';
-        } else {
-            $type = 'enseignant';
-        }
-    
         $user->update([
-            'type' => $type,
+            'type' => 'etudiant',
         ]);
     
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été approuvé avec succès.");
     }
+    
 
 
 

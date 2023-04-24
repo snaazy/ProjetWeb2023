@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <br>
                 <h2>Liste des formations</h2>
                 <a href="{{ route('admin.formations.create') }}" class="btn btn-primary mb-3">Ajouter une formation</a>
                 <table class="table table-striped">

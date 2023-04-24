@@ -87,13 +87,23 @@ public function show($id)
     }
     
 
-public function destroy($id)
-{
-    $course = Course::findOrFail($id);
-    $course->delete();
-
-    return redirect()->route('cours.index')->with('success', 'Le cours a été supprimé avec succès.');
-}
+    public function destroy($id)
+    {
+        $course = Course::findOrFail($id);
+    
+        // Supprime les séances de cours associées
+        foreach ($course->plannings as $session) {
+            $session->delete();
+        }
+    
+        // Désinscrire tous les étudiants inscrits à ce cours
+        $course->students()->detach();
+    
+        $course->delete();
+    
+        return redirect()->route('cours.index')->with('success', 'Le cours a été supprimé avec succès.');
+    }
+    
 
 
 public function studentCourses(Request $request)

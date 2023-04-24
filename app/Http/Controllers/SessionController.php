@@ -40,25 +40,31 @@ class SessionController extends Controller
     }
     
     public function store(Request $request)
-    {
-        $request->validate([
-            'date_debut' => 'required|date',
-            'date_fin' => 'required|date|after:date_debut',
-           
-        ]);
-    
-        $course = Course::findOrFail($request->input('course_id'));
-    
-        $session = new Planning([
-            'date_debut' => $request->input('date_debut'),
-            'date_fin' => $request->input('date_fin'),
-        ]);
-    
-        $course->plannings()->save($session);
-    
-        return redirect()->route('cours.show', $course->id)->with('success', 'La séance de cours a été créée avec succès.');
+{
+    $request->validate([
+        'date_debut' => 'required|date',
+        'date_fin' => 'required|date|after:date_debut',
+    ]);
+
+    $dateDebut = strtotime($request->input('date_debut'));
+    $dateFin = strtotime($request->input('date_fin'));
+    $duree = ($dateFin - $dateDebut) / 3600;
+
+    if (!in_array($duree, [1, 2, 3, 4])) {
+        return redirect()->back()->withErrors(['La durée de la séance de cours doit être de 1h, 2h, 3h ou 4h. Ce sont les règles de l\'université !']);
     }
-    
+
+    $course = Course::findOrFail($request->input('course_id'));
+
+    $session = new Planning([
+        'date_debut' => $request->input('date_debut'),
+        'date_fin' => $request->input('date_fin'),
+    ]);
+
+    $course->plannings()->save($session);
+
+    return redirect()->route('cours.show', $course->id)->with('success', 'La séance de cours a été créée avec succès.');
+}
 
     public function edit($id)
     {
@@ -72,12 +78,20 @@ class SessionController extends Controller
             'date_debut' => 'required|date',
             'date_fin' => 'required|date|after:date_debut',
         ]);
-
+    
+        $dateDebut = strtotime($request->input('date_debut'));
+        $dateFin = strtotime($request->input('date_fin'));
+        $duree = ($dateFin - $dateDebut) / 3600;
+    
+        if (!in_array($duree, [1, 2, 3, 4])) {
+            return redirect()->back()->withErrors(['La durée de la séance de cours doit être de 1h, 2h, 3h ou 4h. Ce sont les règles de l\'université !']);
+        }
+    
         $session = Planning::findOrFail($id);
         $session->date_debut = $request->input('date_debut');
         $session->date_fin = $request->input('date_fin');
         $session->save();
-
+    
         return redirect()->route('cours.show', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
     }
 
