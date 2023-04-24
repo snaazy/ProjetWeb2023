@@ -79,7 +79,10 @@
 }
 
 
+
 </style>
+
+
 
 </head>
 <body class="@yield('body-class')">

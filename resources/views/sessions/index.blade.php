@@ -7,9 +7,10 @@
         <a href="{{ route('sessions.create') }}" class="btn btn-primary mb-3">Creer une séance de cours</a>
         <div class="btn-group mb-3" role="group">
             <a href="{{ route('sessions.index') }}" class="btn btn-primary">Toutes les séances</a>
-            <a href="{{ route('sessions.by_course') }}" class="btn btn-primary">Par cours</a>
-            <a href="{{ route('sessions.by_week') }}" class="btn btn-primary">Par semaine</a>
-          </div>
+           
+            
+        </div>
+        
           <table class="table table-bordered table-striped">
             <!-- contenu de la table -->
           </table>

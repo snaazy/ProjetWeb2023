@@ -81,8 +81,21 @@ class SessionController extends Controller
     }
 
 
+   
+    
+    public function studentPlanning()
+    {
+        $user_id = auth()->id();
+        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                    ->join('cours_users', 'cours.id', '=', 'cours_users.cours_id')
+                    ->select('plannings.*', 'cours.intitule')
+                    ->where('cours_users.user_id', $user_id)
+                    ->get();
+        
+        return view('sessions.etudiant', compact('sessions'));
+    }
+    
 
-  
 
     
 }
