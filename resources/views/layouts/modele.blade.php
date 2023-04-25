@@ -25,16 +25,19 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqFjcJ6pajs/rfdfs3SO+kD4Ck5BdPtF+to8xM6Qhm1B6" crossorigin="anonymous"></script>
 
     <style>
-        .navbar {
-            background-color: rgb(82, 34, 106);
+
+        
+         .navbar {
+            background: linear-gradient(90deg, rgb(82, 34, 106) 0%, rgb(96, 62, 155) 100%);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             padding: 0.5rem 1rem;
-          
+           
         }
 
         .navbar-brand,
         .nav-link {
             color: #fff !important;
+            transition: color 0.3s;
         }
 
         .nav-link:hover {
@@ -51,6 +54,12 @@
 
         .navbar-nav {
             align-items: center;
+            margin-right: -15px;
+        }
+
+        .nav-item {
+            margin-left: 15px;
+            margin-right: 15px;
         }
 
         .navbar-toggler {
@@ -87,9 +96,8 @@
 
         }
         body {
-  min-height: calc(100vh - 100px); 
-  margin-bottom: 100px; 
-}
+            background-color: #fff
+        }
 
 
 

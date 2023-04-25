@@ -34,6 +34,9 @@ Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::cla
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
+    Route::get('/changepassword', [App\Http\Controllers\UserController::class, 'showChangePasswordForm'])->name('user.changePassword');
+Route::post('/changepassword', [App\Http\Controllers\UserController::class, 'changePassword']);
+
     
 });
 
@@ -70,13 +73,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     
    
-    
-    
 });
-
-
-
-
 
 
 Route::middleware(['auth', 'enseignant'])->group(function () {
@@ -92,6 +89,12 @@ Route::middleware(['auth', 'enseignant'])->group(function () {
     Route::get('/sessions/planning', [SessionController::class, 'planning'])->name('sessions.planning');
 });
 
+
+
+
+Route::middleware(['auth', 'is_admin_or_enseignant'])->group(function () {
+  
+});
 
 
 Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning');

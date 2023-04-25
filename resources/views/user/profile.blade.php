@@ -19,6 +19,12 @@
         <div class="col-md-8">
             <div class="card bg-light p-3">
                 <div class="card-body">
+                    @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                     <h3 class="card-title">Mes informations</h3>
                     <hr class="my-4">
                     <form action="{{ route('user.update', $user->id) }}" method="POST">
@@ -36,10 +42,13 @@
                             <label for="prenom" class="form-label">Prénom :</label>
                             <input type="text" class="form-control" id="prenom" name="prenom" value="{{ $user->prenom }}">
                         </div>
+            
                         <div class="mb-3">
                             <label for="mdp" class="form-label">Mot de passe :</label>
                             <input type="text" class="form-control" id="mdp" value="{{ $user->mdp }}" disabled>
+                            <a href="{{ route('user.changePassword') }}" class="btn btn-link mt-2" style="text-decoration: none;">Changer de mot de passe</a>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary mt-3">Enregistrer les modifications</button>
                     </form>
                 </div>

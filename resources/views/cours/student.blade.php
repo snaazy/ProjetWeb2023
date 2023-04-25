@@ -11,7 +11,10 @@
             <h2 class="text-center mb-5 title">Liste des cours de votre formation</h2>
             @foreach(['success', 'danger', 'warning'] as $alert)
                 @if(session($alert))
-                    <div class="alert alert-{{ $alert }}">{!! session($alert) !!}</div>
+                    <div class="alert alert-{{ $alert }} alert-dismissible fade show" role="alert">
+                        {!! session($alert) !!}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
             @endforeach
 

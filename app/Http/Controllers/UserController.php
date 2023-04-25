@@ -75,5 +75,32 @@ public function show()
 }
 
 
+public function showChangePasswordForm()
+{
+    return view('user.changepassword');
+}
+
+public function changePassword(Request $request)
+{
+
+    $user = auth()->user();
+
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:2',
+        'new_password_confirmation' => 'required|same:new_password',
+    ]);
+
+    if (!Hash::check($request->input('current_password'), $user->mdp)) {
+        return redirect()->back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
+    }
+
+    $user->mdp = bcrypt($request->input('new_password'));
+    $user->save();
+
+    return redirect()->route('profil')->with('etat', 'Le mot de passe a été modifié avec succès.');
+}
+
+
 
 }
