@@ -30,7 +30,7 @@ class RegisterController extends Controller
             $formation_id = null;
         } elseif ($type == 'enseignant') {
             $formation_id = null;
-            $type = 'enseignant'; // Ajout de cette ligne pour modifier le type de l'utilisateur
+            $type = 'enseignant';
         } else {    
             $formation_id = $request->input('formation_id');
         }
@@ -44,7 +44,13 @@ class RegisterController extends Controller
             'type' => $type
         ]);
     
-        return redirect('/login')->with('success', 'Votre compte a été créé avec succès. Veuillez attendre que l\'administrateur valide votre compte.');
+        if ($type == 'admin') {
+            return redirect('/login')->with('success', 'Compte administrateur créé avec succès.');
+        } elseif ($type == 'enseignant') {
+            return redirect('/login')->with('success', 'Compte enseignant créé avec succès.');
+        } else {
+            return redirect('/login')->with('success', 'Votre compte a été créé avec succès. Veuillez attendre que l\'administrateur valide votre compte.');
+        }
     }
     
     

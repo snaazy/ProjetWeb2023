@@ -30,7 +30,7 @@ class SessionController extends Controller
     return view('sessions.index', compact('sessions'));
 }
 
-    
+
 
 
     public function create()
@@ -118,9 +118,12 @@ class SessionController extends Controller
         if ($week == null) {
             $week = date('W');
         }
-    
-        return view('sessions.etudiant', compact('week', 'sessions'));
+        
+        
+        return view('sessions.etudiant_table', compact('week', 'sessions'));
     }
+
+    
     
 
     

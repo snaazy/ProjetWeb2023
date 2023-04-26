@@ -95,9 +95,11 @@
             
 
         }
-        body {
-            background-color: #fff
-        }
+       
+     
+        .page-content {
+    padding-bottom: 60px;
+}
 
 
 
@@ -153,9 +155,10 @@
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="container page-content">
     @yield('content')
 </div>
+
 <footer class="footer">
     <div class="container text-center">
         <p>&copy; 2023 Planning - Tous droits réservés.</p>

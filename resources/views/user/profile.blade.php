@@ -105,6 +105,7 @@
                                     @if(Auth::user()->type == 'enseignant')
                                     <div class="card-body">
                                     <h3 class="card-title">Cours assignés</h3>
+                                    <p>Liste des cours dont je suis responsable </p>
                                     <hr class="my-4">
                                     <table class="table table-bordered table-striped">
                                     <thead>
@@ -130,6 +131,8 @@
                             </div>
                             </div>
                             </div>
+
+</div>
                             @endsection
 
 

@@ -63,17 +63,7 @@
 </style>
 
 <div class="container">
-    <h1 class="title">Liste des séances de cours</h1>
-    <div class="btn-group" role="group">
-        <a href="{{ route('sessions.index') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i> Toutes les séances</a>
-        @if(Auth::user()->type == 'enseignant')
-            <a href="{{ route('sessions.create') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Créer une séance de cours</a>
-        @endif
-        <a href="{{ route('sessions.index', ['week' => 'current']) }}" class="btn btn-outline-primary"><i class="bi bi-calendar-week"></i> Séances de la semaine</a>
-        @if(Auth::user()->type == 'etudiant')
-            <a href="{{ route('sessions.student_planning') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>Voir le planning simplifié</a>
-        @endif
-    </div>
+    <h1 class="title">Liste des séances de cours auxquelles je suis inscrit</h1>
 
     @if($sessions->isEmpty())
         <h2> Il n'y a aucune séance de cours programmées pour le moment.</h2>
@@ -85,9 +75,6 @@
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>Enseignant</th>
-                    @if(Auth::user()->type == 'enseignant')
-                        <th>Actions</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -97,29 +84,12 @@
                         <td>{{ \Carbon\Carbon::parse($session->date_debut)->format('d-m-Y H:i') }}</td>
                         <td>{{ \Carbon\Carbon::parse($session->date_fin)->format('d-m-Y H:i') }}</td>
                         <td>{{ $session->prenom }} {{ $session->nom }}</td>
-                        @if(Auth::user()->type == 'enseignant')
-                            <td>
-                                <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">
-                                    <i class="bi bi-pencil-square"></i> Modifier
-                                </a>
-                                <form action="{{ route('sessions.destroy', $session->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette séance de cours ?')">
-                                        <i class="bi bi-trash"></i> Supprimer
-                                    </button>
-                                </form>
-                            </td>
-                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
         <br>
-        <div class="d-flex justify-content-center">
-            {{ $sessions->links() }}
-        </div>
+      
     @endif
 </div>
-@endsection    
-               
+@endsection

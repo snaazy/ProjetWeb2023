@@ -124,3 +124,8 @@ Route::get('/student/courses', [App\Http\Controllers\CourseController::class, 's
 Route::post('/student/courses/{id}/enroll', [App\Http\Controllers\CourseController::class, 'enroll'])->name('student.enroll');
 Route::post('/student/courses/{id}/unenroll', [App\Http\Controllers\CourseController::class, 'unenroll'])->name('student.unenroll');
 Route::get('/student/my-courses', [App\Http\Controllers\CourseController::class, 'myCourses'])->name('student.mycourses');
+
+
+
+Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
+Route::get('/student-sessions', 'App\Http\Controllers\SessionController@studentPlanning')->name('sessions.student_sessions');

@@ -29,7 +29,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'intitule' => 'required|string|max:50',
+            'intitule' => 'required|string|max:50|min:5',
             'formation_id' => 'required|integer|exists:formations,id',
             'user_id' => 'required|integer|exists:users,id',
         ]);
