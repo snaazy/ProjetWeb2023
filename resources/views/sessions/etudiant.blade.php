@@ -5,21 +5,23 @@
     <h1>Mon planning</h1>
     
     <div class="row">
+        <div class="btn-group">
+            <a href="{{ route('sessions.student_sessionsTable') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Voir le planning avancé</a>
+        </div>
+        
         <div class="col-md-12">
-            <a href="{{ route('sessions.student_sessionsTable') }}" class="btn btn-outline-primary">Voir le planning avancé</a>
-            <a href="{{ route('sessions.student_planning', ['week' => $week - 1]) }}" class="week-change">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 8l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"/>
-                </svg>
-            </a>
-            <span>Semaine {{ $week }}</span>
-            <a href="{{ route('sessions.student_planning', ['week' => $week + 1]) }}" class="week-change">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
-            </a>
+            <div class="btn-group" role="group">
+                <a href="{{ route('sessions.student_planning', ['week' => $week - 1]) }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+                <button type="button" class="btn btn-outline-secondary">{{ 'Semaine ' . $week }}</button>
+                <a href="{{ route('sessions.student_planning', ['week' => $week + 1]) }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
         </div>
     </div>
+    
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -149,6 +151,22 @@ h2 {
 }
 .btn {
     margin: 0 0.5rem;
+}
+
+.btn-outline-primary {
+    border-color: #4A4A4A;
+    color: #4A4A4A;
+}
+.btn-outline-primary:hover {
+    background-color: #4A4A4A;
+    color: #fff;
+}
+.btn-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
     </style>
 

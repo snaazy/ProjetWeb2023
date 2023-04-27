@@ -128,23 +128,37 @@ class SessionController extends Controller
         return view('sessions.etudiant', compact('week', 'sessions'));
     }
 
-    public function studentPlanningTable($week = null)
+    public function studentPlanningTable(Request $request)
     {
         $user_id = auth()->id();
+        $sortByCourse = $request->input('sort_by_course');
+        $week = $request->input('week');
+        
         $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
                     ->join('cours_users', 'cours.id', '=', 'cours_users.cours_id')
                     ->join('users', 'cours.user_id', '=', 'users.id')
                     ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
-                    ->where('cours_users.user_id', $user_id)
-                    ->get();
-        
-        if ($week == null) {
-            $week = date('W');
+                    ->where('cours_users.user_id', $user_id);
+            
+        if ($sortByCourse) {
+            $sessions = $sessions->orderBy('cours.intitule');
         }
-        
-        
+            
+        if ($week == 'current') {
+            $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+            $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+            $sessions = $sessions->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
+        } else if ($week != null) {
+            $sessions = $sessions->whereRaw('WEEK(plannings.date_debut) = ?', [$week])->orderBy('plannings.date_debut');
+        }
+            
+        $sessions = $sessions->paginate(10);
+            
         return view('sessions.etudiant_table', compact('week', 'sessions'));
     }
+    
+
+    
 
     
     

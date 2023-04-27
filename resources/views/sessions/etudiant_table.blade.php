@@ -64,14 +64,22 @@
 
 <div class="container">
     <h1 class="title">Liste des séances de cours auxquelles je suis inscrit</h1>
-    @if(Auth::user()->type == 'etudiant')
-    <a href="{{ route('sessions.student_sessions') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>Voir le planning simplifié</a>
-@endif
-
-    @if($sessions->isEmpty())
-        <h2> Il n'y a aucune séance de cours programmées pour le moment.</h2>
-    @else
     
+    @if(Auth::user()->type == 'etudiant')
+        <div class="btn-group">
+            <a href="{{ route('sessions.student_sessions') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Voir le planning simplifié</a>
+        </div>
+    @endif
+
+    <div class="btn-group">
+        <a href="{{ route('sessions.student_sessionsTable') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i> Toutes les séances</a>
+        <a href="{{ route('sessions.student_sessionsTable', ['sort_by_course' => 1]) }}" class="btn btn-outline-primary"><i class="bi bi-sort-alpha-down"></i> Trier par cours</a>
+        <a href="{{ route('sessions.student_sessionsTable', ['sort' => 'week', 'week' => 'current']) }}" class="btn btn-outline-primary"><i class="bi bi-sort-numeric-down"></i> Trier par cette semaine</a>
+    </div>
+    
+    @if($sessions->isEmpty())
+        <h2>Il n'y a aucune séance de cours programmée pour le moment.</h2>
+    @else
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
@@ -92,8 +100,7 @@
                 @endforeach
             </tbody>
         </table>
-        <br>
-      
+        {{ $sessions->links() }}
     @endif
 </div>
-@endsection
+@endsection    
