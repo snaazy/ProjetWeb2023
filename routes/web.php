@@ -129,3 +129,4 @@ Route::get('/student/my-courses', [App\Http\Controllers\CourseController::class,
 
 Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
 Route::get('/student-sessions', 'App\Http\Controllers\SessionController@studentPlanning')->name('sessions.student_sessions');
+Route::get('/student-sessions-table', 'App\Http\Controllers\SessionController@studentPlanningTable')->name('sessions.student_sessionsTable');

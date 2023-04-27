@@ -120,6 +120,24 @@ class SessionController extends Controller
         }
         
         
+        return view('sessions.etudiant', compact('week', 'sessions'));
+    }
+
+    public function studentPlanningTable($week = null)
+    {
+        $user_id = auth()->id();
+        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                    ->join('cours_users', 'cours.id', '=', 'cours_users.cours_id')
+                    ->join('users', 'cours.user_id', '=', 'users.id')
+                    ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
+                    ->where('cours_users.user_id', $user_id)
+                    ->get();
+        
+        if ($week == null) {
+            $week = date('W');
+        }
+        
+        
         return view('sessions.etudiant_table', compact('week', 'sessions'));
     }
 

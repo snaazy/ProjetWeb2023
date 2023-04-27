@@ -64,6 +64,9 @@
 
 <div class="container">
     <h1 class="title">Liste des séances de cours auxquelles je suis inscrit</h1>
+    @if(Auth::user()->type == 'etudiant')
+    <a href="{{ route('sessions.student_sessions') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>Voir le planning simplifié</a>
+@endif
 
     @if($sessions->isEmpty())
         <h2> Il n'y a aucune séance de cours programmées pour le moment.</h2>
