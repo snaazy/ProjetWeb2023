@@ -19,10 +19,17 @@ class CourseController extends Controller
             $query->where('intitule', 'like', '%' . $request->input('q') . '%');
         }
     
+        if ($request->input('enseignant')) {
+            $query->where('user_id', $request->input('enseignant'));
+        }
+    
         $cours = $query->paginate(5);
     
-        return view('cours.index', compact('cours'));
+        $enseignants = User::where('type', 'enseignant')->get();
+    
+        return view('cours.index', compact('cours', 'enseignants'));
     }
+    
     
 
     public function create()
@@ -90,7 +97,7 @@ public function show($id)
         $course->user_id = $request->user_id;
         $course->save();
     
-        return redirect()->route('cours.show', $course->id)->with('success', 'Le cours a été modifié avec succès.');
+        return redirect()->route('cours.index', $course->id)->with('success', 'Le cours a été modifié avec succès.');
     }
     
 

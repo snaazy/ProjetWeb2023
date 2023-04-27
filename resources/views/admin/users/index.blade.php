@@ -21,11 +21,26 @@
                     <option value="admin" {{ request('type') == 'admin' ? 'selected' : '' }}>Administrateur</option>
                 </select>
             </div>
+
             <div class="col-md-2 mb-3 d-flex align-items-end justify-content-center">
                 <button type="submit" class="btn btn-primary">Filtrer</button>
             </div>
         </form>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="alert alert-secondary mt-4" role="alert">
+            <p>Avant de supprimer un utilisateur, veuillez vous assurer que toutes les données liées ont été supprimées,
+                telles que les formations, les cours, les séances de cours associées, etc.</p>
+            <p>Il est également nécessaire que l'enseignant supprime d'abord ses planifications de séances de cours pour un
+                cours de la formation en question.</p>
+        </div>
+        @foreach (['success', 'danger', 'warning', 'error'] as $alert)
+            @if (session($alert))
+                <div class="alert alert-{{ $alert }} alert-dismissible fade show mt-3" role="alert">
+                    {!! session($alert) !!}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+        @endforeach
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
             @foreach ($users as $user)
                 <div class="col mb-4">
                     <div class="card h-100">
@@ -56,11 +71,13 @@
                                             </li>
                                         @endif
                                         <li>
-                                            <form action="{{ route('users.destroy', $user) }}" method="POST">
+                                            <form action="{{ route('users.destroy', $user) }}" method="POST"
+                                                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="dropdown-item">Supprimer</button>
                                             </form>
+                                        </li>
                                         <li>
                                             <form action="{{ route('admin.users.update', $user) }}" method="POST"
                                                 class="dropdown-item">
@@ -94,7 +111,6 @@
                             </div>
                             <div class="mt-4">
                                 <p class="card-text"><strong>Login :</strong> {{ $user->login }}</p>
-                                <p class="card-text"><strong>Email :</strong> {{ $user->email }}</p>
                                 <p class="card-text"><strong>Type :</strong> {{ $user->type }}</p>
                             </div>
                         </div>
@@ -102,8 +118,9 @@
                 </div>
             @endforeach
         </div>
-        <div class="d-flex justify-content-center pagination-custom">
-            {{ $users->appends(request()->except('page'))->links() }} <!-- pour garder les filtres dans la pagination -->
+        <div class="d-flex justify-content-center mt-4 pagination-custom">
+            {{ $users->appends(request()->except('page'))->links() }}
+            <!-- pour garder les filtres dans la pagination -->
         </div>
     </div>
 @endsection

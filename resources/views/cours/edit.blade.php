@@ -49,7 +49,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Enregistrer') }}
                                 </button>
-                                <a href="{{ route('cours.show', $course->id) }}" class="btn btn-secondary">
+                                <a href="{{ route('cours.index', $course->id) }}" class="btn btn-secondary">
                                     {{ __('Annuler') }}
                                 </a>
                             </div>

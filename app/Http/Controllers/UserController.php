@@ -36,10 +36,20 @@ class UserController extends Controller
 
 
     public function destroy(User $user)
-{
-    $user->delete();
-    return redirect()->route('admin.users.index')->with('success', 'L\'utilisateur a été supprimé avec succès.');
-}
+    {
+        try {
+            $user->delete();
+            return redirect()->route('admin.users.index')->with('success', 'L\'utilisateur a été supprimé avec succès.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1451) {
+                return redirect()->route('admin.users.index')->with('error', 'Impossible de supprimer l\'utilisateur car des données y sont liées. Veuillez vous assurer que toutes les données liées à cet utilisateur, comme les notes et les absences associées, ont été supprimées avant de procéder à la suppression de l\'utilisateur.');
+            } else {
+                return redirect()->route('admin.users.index')->with('warning', 'Une erreur est survenue lors de la suppression de l\'utilisateur. Veuillez respecter les conditions avant de supprimer un utilisateur.');
+            }
+        }
+    }
+    
 
 public function update(Request $request)
 {

@@ -51,7 +51,28 @@ public function update(Request $request, Formation $formation)
 
 public function destroy(Formation $formation)
 {
-    $formation->delete();
-    return redirect()->route('admin.formations.index')->with('success', 'Formation supprimée avec succès');
+    try {
+        $count = $formation->users()->where('type', 'etudiant')->count();
+
+        if ($count > 0) {
+            $formation->users()->where('type', 'etudiant')->update(['type' => null]);
+            $message = 'La formation a été supprimée avec succès. '.$count.' étudiant(s) ont été affecté(s) au type null.';
+        } else {
+            $formation->delete();
+            $message = 'Formation supprimée avec succès.';
+        }
+
+        return redirect()->route('admin.formations.index')->with('success', $message);
+    } catch (\Illuminate\Database\QueryException $e) {
+        $errorCode = $e->errorInfo[1];
+        if ($errorCode == 1451) {
+            return redirect()->route('admin.formations.index')->with('warning', 'Impossible de supprimer la formation car des données y sont liées. Veuillez vous assurer que toutes les données liées à cette formation, comme les cours et les séances de cours associées, ont été supprimées avant de procéder à la suppression de la formation.');
+        } else {
+            return redirect()->route('admin.formations.index')->with('warning', 'Impossible de supprimer la formation car des données y sont liées. Veuillez vous assurer que toutes les données liées à cette formation, comme les cours et les séances de cours associées, ont été supprimées ou déplacées avant de procéder à la suppression de la formation.');
+        }
+    }
 }
+
+
+
 }
