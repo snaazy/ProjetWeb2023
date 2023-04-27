@@ -97,7 +97,7 @@ class SessionController extends Controller
         $session->date_fin = $request->input('date_fin');
         $session->save();
     
-        return redirect()->route('cours.show', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
+        return redirect()->route('sessions.index', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
     }
 
     public function destroy($id)

@@ -11,12 +11,19 @@ use App\Models\Formation;
 
 class CourseController extends Controller
 {
-    public function index()
-{
-    $cours = Course::with(['formation', 'user'])->get();
-    return view('cours.index', compact('cours'));
-}
-
+    public function index(Request $request)
+    {
+        $query = Course::with(['formation', 'user']);
+    
+        if ($request->input('q')) {
+            $query->where('intitule', 'like', '%' . $request->input('q') . '%');
+        }
+    
+        $cours = $query->paginate(5);
+    
+        return view('cours.index', compact('cours'));
+    }
+    
 
     public function create()
     {

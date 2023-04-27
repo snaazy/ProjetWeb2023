@@ -10,7 +10,8 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="intitule">Intitulé</label>
-                        <input type="text" name="intitule" id="intitule" class="form-control" value="{{ old('intitule', $formation->intitule) }}" required>
+                        <input type="text" name="intitule" id="intitule" class="form-control"
+                            value="{{ old('intitule', $formation->intitule) }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Modifier</button>
                     <a href="{{ route('admin.formations.index') }}" class="btn btn-secondary">Retour</a>

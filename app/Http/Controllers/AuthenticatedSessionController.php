@@ -72,7 +72,7 @@ class AuthenticatedSessionController extends Controller
         }
     
         return back()->withErrors([
-            'login' => 'The provided credentials do not match our records.',
+            'login' => 'Ces identifiants ne correspondent pas à nos enregistrements.',
         ]);
     }
     

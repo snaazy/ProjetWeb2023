@@ -16,16 +16,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($formations as $formation)
+                        @foreach ($formations as $formation)
                             <tr>
                                 <td>{{ $formation->id }}</td>
                                 <td>{{ $formation->intitule }}</td>
                                 <td>
-                                    <a href="{{ route('admin.formations.edit', $formation->id) }}" class="btn btn-warning">Modifier</a>
-                                    <form method="POST" action="{{ route('admin.formations.destroy', $formation->id) }}" style="display: inline-block;">
+                                    <a href="{{ route('admin.formations.edit', $formation->id) }}"
+                                        class="btn btn-warning">Modifier</a>
+                                    <form method="POST" action="{{ route('admin.formations.destroy', $formation->id) }}"
+                                        style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette formation?');">Supprimer</button>
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette formation?');">Supprimer</button>
                                     </form>
                                 </td>
                             </tr>

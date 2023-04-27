@@ -66,11 +66,12 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/cours', [App\Http\Controllers\CourseController::class, 'index'])->name('cours.index');
     Route::get('/cours/create', [App\Http\Controllers\CourseController::class, 'create'])->name('cours.create');
     Route::post('/cours', [App\Http\Controllers\CourseController::class, 'store'])->name('cours.store');
-    Route::get('/cours/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('cours.show');
     Route::get('/cours/{id}/edit', [App\Http\Controllers\CourseController::class, 'edit'])->name('cours.edit');
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     Route::delete('/cours/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('cours.destroy');
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
+  
+
     
    
 });
