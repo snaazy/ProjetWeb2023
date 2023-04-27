@@ -5,7 +5,9 @@
         <div class="row">
             <div class="col-md-12">
                 <br>
-                <h1 style="color: #007bff;">Liste des cours</h1>
+                <h1 class="text-center" style="color: #000000;">Liste des cours</h1>
+              
+
                 @foreach (['success', 'danger', 'warning'] as $alert)
                 @if (session($alert))
                     <div class="alert alert-{{ $alert }} alert-dismissible fade show" role="alert">
@@ -47,7 +49,6 @@
                                     <td>{{ $course->user->prenom }} {{ $course->user->nom }}</td>
                                     <td>{{ $course->formation->intitule }}</td>
                                     <td>
-                                        <a href="{{ route('cours.show', $course->id) }}" class="btn btn-info"><i class="fas fa-eye"></i> Voir</a>
                                         <a href="{{ route('cours.edit', $course->id) }}" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> Modifier</a>
                                         <form action="{{ route('cours.destroy', $course->id) }}" method="POST"
                                             style="display:inline;">
@@ -71,4 +72,4 @@
           
         </div>
     </div>
-@endsection    
+@endsection
