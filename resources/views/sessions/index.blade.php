@@ -73,6 +73,8 @@
         @if(Auth::user()->type == 'etudiant')
             <a href="{{ route('sessions.student_planning') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>Voir le planning simplifié</a>
         @endif
+        <a href="{{ route('sessions.index', ['sort_by_course' => 1]) }}" class="btn btn-outline-primary"><i class="bi bi-sort-alpha-down"></i> Trier par cours</a>
+
     </div>
 
     @if($sessions->isEmpty())

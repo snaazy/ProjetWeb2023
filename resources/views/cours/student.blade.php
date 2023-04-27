@@ -4,7 +4,14 @@
     <div class="container">
         <br>
         @if(auth()->user()->type === 'enseignant')
-            <h2 class="text-center mb-5">Vous êtes enseignant et vous n'avez donc aucun cours.</h2>
+        <div class="alert d-flex align-items-center justify-content-center text-center" role="alert" style="height: 50vh;">
+            <div>
+                <h2 class="font-weight-bold">Vous êtes enseignant</h2>
+                <p>Vous n'avez pas la possibilité de vous inscrire à des cours.</p>
+                <p>Vous pouvez cependant voir les cours qui vous ont été assignés en cliquant <a href="{{ route('profil') }}">ici</a>. (c'est tout en bas dans la section "Cours assignés").</p>
+            </div>
+        </div>
+        
         @elseif($courses->isEmpty())
             <h2 class="text-center mb-5">Aucun cours disponible pour le moment.</h2>
         @else

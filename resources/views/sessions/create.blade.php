@@ -50,7 +50,7 @@
 
                             <div class="form-group mb-4">
                                 <label for="date_debut" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Date de début</label>
-                                <input type="datetime-local" class="form-control custom-form-control @error('date_debut') is-invalid @enderror" id="date_debut" name="date_debut" required>
+                                <input type="datetime-local" class="form-control custom-form-control @error('date_debut') is-invalid @enderror" id="date_debut" name="date_debut" required onchange="updateEndDate(this)">
                                 @error('date_debut')
                                 <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -75,4 +75,14 @@
         </div>
     </div>
 </div>
+
+<!-- Pour que la date de fin soit mise automatiquemet à la date de début -->
+<script>
+    function updateEndDate(dateInput) {
+        const endDateInput = document.querySelector("#date_fin");
+        endDateInput.min = dateInput.value;
+        endDateInput.value = dateInput.value;
+    }
+</script>
+
 @endsection

@@ -71,6 +71,7 @@
     @if($sessions->isEmpty())
         <h2> Il n'y a aucune séance de cours programmées pour le moment.</h2>
     @else
+    
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
