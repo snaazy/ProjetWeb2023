@@ -112,23 +112,22 @@ public function show($id)
     }
     
 
-
-public function studentCourses(Request $request)
-{
-    $user = auth()->user();
-    $formation_id = $user->formation_id;
-    $search = $request->input('search');
-
-    $courses = Course::with(['formation', 'user'])
-                    ->where('formation_id', $formation_id)
-                    ->when($search, function ($query, $search) {
-                        return $query->where('intitule', 'like', '%' . $search . '%');
-                    })
-                    ->get();
-
-    return view('cours.student', compact('courses'));
-}
-
+    public function studentCourses(Request $request)
+    {
+        $user = auth()->user();
+        $formation_id = $user->formation_id;
+        $search = $request->input('search');
+    
+        $courses = Course::with(['formation', 'user'])
+                        ->where('formation_id', $formation_id)
+                        ->when($search, function ($query, $search) {
+                            return $query->where('intitule', 'like', '%' . $search . '%');
+                        })
+                        ->paginate(3);
+    
+        return view('cours.student', compact('courses'));
+    }
+    
 
 public function enroll(int $id)
 {
@@ -161,7 +160,7 @@ public function unenroll(int $id)
 }
 
 
-public function myCourses()
+public function myCourses() 
 {
     $user = auth()->user();
     $courses = $user->courses()->with(['formation', 'user'])->get();

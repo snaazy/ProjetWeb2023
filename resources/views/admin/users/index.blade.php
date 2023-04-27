@@ -102,8 +102,8 @@
                 </div>
             @endforeach
         </div>
-        <div class="d-flex justify-content-center mt-5">
+        <div class="d-flex justify-content-center pagination-custom">
             {{ $users->appends(request()->except('page'))->links() }} <!-- pour garder les filtres dans la pagination -->
-        </div> 
+        </div>
     </div>
 @endsection
