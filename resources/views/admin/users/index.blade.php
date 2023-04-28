@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Liste des utilisateurs')
 @section('content')
     <div class="container mt-5">
         <h2 class="text-center mb-5">Gestion des utilisateurs</h2>
@@ -127,7 +127,7 @@
                                     </ul>
                                 </div>
                             </div>
-
+                            <hr>
                             <div class="mt-4">
                                 <p class="card-text"><strong>Login :</strong> {{ $user->login }}</p>
                                 <p class="card-text"><strong>Type :</strong> {{ $user->type }}</p>
@@ -147,6 +147,23 @@
     <style>
         .my-form-class {
             padding: 10px;
+        }
+
+
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            transition: box-shadow 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
     </style>
 @endsection

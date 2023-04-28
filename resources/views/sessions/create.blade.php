@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Créer une séance')
 @section('content')
 
     <style>

@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Changer MDP')
 @section('content')
     <div class="container my-5">
         <div class="row justify-content-center">

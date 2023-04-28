@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Se connecter')
 @section('content')
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">

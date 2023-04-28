@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Planning')
 @section('content')
     <style>
         .title {

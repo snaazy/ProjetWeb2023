@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Modifier séance')
 @section('content')
     <style>
         .form-label {

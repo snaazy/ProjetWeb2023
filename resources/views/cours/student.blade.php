@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Liste des cours de ma formation')
 @section('content')
     <div class="container">
         <br>

@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Accueil')
 @section('content')
     <style>
         .u-planning-animation {
