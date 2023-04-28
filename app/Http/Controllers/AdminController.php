@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Formation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -57,7 +58,7 @@ class AdminController extends Controller
         $user->update([
             'type' => NULL,
         ]);
-        // $user->delete();
+        $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', "L'utilisateur a été refusé avec succès.");
     }
@@ -101,5 +102,44 @@ class AdminController extends Controller
     return redirect()->back()->with('success', 'Les informations de l\'utilisateur ont été mises à jour.');
 }
 
+public function showCreateUserForm()
+{
+    $formations = Formation::all();
+    return view('admin.create-user', ['formations' => $formations]);
+}
+public function create(Request $request)
+{
+    $request->validate([
+        'nom' => 'required|string|max:40',
+        'prenom' => 'required|string|max:40',
+        'login' => 'required|string|max:30|unique:users',
+        'mdp' => 'required|string|min:1',
+        'type' => 'required|in:etudiant,enseignant,admin',
+        'formation_id' => 'nullable|exists:formations,id'
+    ]);
 
+    $formation_id = $request->input('formation_id');
+    $type = $request->input('type');
+
+    if ($type == 'admin') {
+        $formation_id = null;
+    } elseif ($type == 'enseignant') {
+        $formation_id = null;
+    } else {
+        $request->validate([
+            'formation_id' => 'required|exists:formations,id'
+        ]);
+    }
+
+    User::create([
+        'nom' => $request->input('nom'),
+        'prenom' => $request->input('prenom'),
+        'login' => $request->input('login'),
+        'mdp' => bcrypt($request->input('mdp')),
+        'formation_id' => $formation_id,
+        'type' => $type
+    ]);
+
+    return redirect('/admin')->with('success', 'Utilisateur créé avec succès.');
+}
 }

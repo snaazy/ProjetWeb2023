@@ -73,6 +73,10 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'showChangePasswordUserForm'])->name('admin.users.changePasswordForm');
     Route::post('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'changePasswordUser'])->name('admin.users.changepassword');
     Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.users.update');
+    Route::get('/users/create', [App\Http\Controllers\AdminController::class, 'showCreateUserForm'])->name('users.create');
+    Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+
 });
 
 Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {

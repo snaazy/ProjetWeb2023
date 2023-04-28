@@ -111,6 +111,30 @@ class UserController extends Controller
         return redirect()->route('profil')->with('etat', 'Le mot de passe a été modifié avec succès.');
     }
 
+    public function store(Request $request)
+{
+    $request->validate([
+        'nom' => 'required|string|max:40',
+        'prenom' => 'required|string|max:40',
+        'login' => 'required|string|max:30|unique:users',
+        'mdp' => 'required|string|min:1',
+        'formation_id' => 'nullable|exists:formations,id',
+        'type' => 'required|in:etudiant,enseignant,admin',
+    ]);
+
+    User::create([
+        'nom' => $request->input('nom'),
+        'prenom' => $request->input('prenom'),
+        'login' => $request->input('login'),
+        'mdp' => bcrypt($request->input('mdp')),
+        'formation_id' => $request->input('formation_id'),
+        'type' => $request->input('type')
+    ]);
+
+    return redirect()->route('admin.users.index')->with('success', 'Utilisateur créé avec succès.');
+}
+
+
 
 
 }
