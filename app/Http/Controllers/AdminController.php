@@ -73,12 +73,15 @@ class AdminController extends Controller
             'new_password' => 'required|min:2',
             'new_password_confirmation' => 'required|same:new_password',
         ]);
-
+    
         $user->mdp = bcrypt($request->input('new_password'));
         $user->save();
-
-        return redirect()->route('admin.users.index')->with('etat', 'Le mot de passe de l\'utilisateur a été modifié avec succès.');
+    
+        $successMessage = 'Le mot de passe de l\'utilisateur a été modifié avec succès.';
+        return redirect()->route('admin.users.index')->with(compact('successMessage'));
     }
+    
+    
 
 
 
