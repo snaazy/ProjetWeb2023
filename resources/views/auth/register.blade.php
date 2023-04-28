@@ -53,14 +53,14 @@
                             <div class="form-group mb-4">
                                 <label class="form-label">Sélectionnez votre type d'utilisateur :</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="type" id="enseignant"
+                                    <input class="form-check-input" type="checkbox" name="type" id="enseignant"
                                         value="enseignant" {{ old('type') == 'enseignant' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="enseignant">
                                         Enseignant
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="type" id="admin"
+                                    <input class="form-check-input" type="checkbox" name="type" id="admin"
                                         value="admin" {{ old('type') == 'admin' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="admin">
                                         Admin
@@ -70,6 +70,7 @@
                                     <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
+
 
                             <div class="form-group mb-4">
                                 <label class="form-label">Formation</label>

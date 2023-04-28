@@ -48,7 +48,6 @@ Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRe
 Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
 
 
-
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
     Route::resource('formations', App\Http\Controllers\FormationController::class);
@@ -61,7 +60,6 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/admin/formations/{formation}', [App\Http\Controllers\FormationController::class, 'update'])->name('admin.formations.update');
     Route::post('/admin/users/{user}/approve', 'App\Http\Controllers\AdminController@approveUser')->name('admin.users.approve');
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
-    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.users.update');
     Route::patch('/admin/users/{user}/refuse', [App\Http\Controllers\AdminController::class, 'refuseUser'])->name('admin.users.refuse');
     Route::get('/cours', [App\Http\Controllers\CourseController::class, 'index'])->name('cours.index');
     Route::get('/cours/create', [App\Http\Controllers\CourseController::class, 'create'])->name('cours.create');
@@ -72,10 +70,12 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     Route::get('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'showChangePasswordUserForm'])->name('admin.users.changePasswordForm');
     Route::post('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'changePasswordUser'])->name('admin.users.changepassword');
-    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
-    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'update'])->name('admin.users.update');
     Route::get('/users/create', [App\Http\Controllers\AdminController::class, 'showCreateUserForm'])->name('users.create');
     Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+    Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::put('/admin/users/{user}/type', [App\Http\Controllers\AdminController::class, 'updateType'])->name('admin.users.update.type');
+    
+
 
 });
 

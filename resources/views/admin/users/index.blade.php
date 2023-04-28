@@ -49,55 +49,58 @@
                                 <h5 class="card-title"><i class="fas fa-user"></i> {{ $user->prenom }} {{ $user->nom }}
                                 </h5>
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="fas fa-cog"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                         @if ($user->type === null)
-                                        <li>
-                                        <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item"><i class="fas fa-check"></i> Approuver</button>
-                                        </form>
-                                        </li>
-                                        <li>
-                                        <form action="{{ route('admin.users.refuse', $user->id) }}" method="post"
-                                                                                     class="d-inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="dropdown-item"><i class="fas fa-times"></i> Refuser</button>
-                                        </form>
-                                        </li>
+                                            <li>
+                                                <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item"><i
+                                                            class="fas fa-check"></i> Approuver</button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="{{ route('admin.users.refuse', $user->id) }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="dropdown-item"><i
+                                                            class="fas fa-times"></i> Refuser</button>
+                                                </form>
+                                            </li>
                                         @endif
                                         <li>
-                                        <form action="{{ route('admin.users.update', $user) }}" method="POST"
-                                                                                     class="my-form-class">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="row mb-2">
-                                        <div class="col">
-                                        <label for="nom-{{ $user->id }}" class="form-label">Nom
-                                        :</label>
-                                        <input type="text" name="nom" id="nom-{{ $user->id }}"
-                                                                                                 class="form-control" value="{{ $user->nom }}" required>
-                                        </div>
-                                        <div class="col">
-                                        <label for="prenom-{{ $user->id }}" class="form-label">Prénom
-                                        :</label>
-                                        <input type="text" name="prenom"
-                                                                                                 id="prenom-{{ $user->id }}" class="form-control"
-                                                                                                 value="{{ $user->prenom }}" required>
-                                        </div>
-                                        </div>
-                                        <div class="mb-2">
-                                        <label for="login-{{ $user->id }}" class="form-label">Login
-                                        :</label>
-                                        <input type="text" name="login" id="login-{{ $user->id }}"
-                                                                                             class="form-control" value="{{ $user->login }}" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
-                                        Enregistrer</button>
-                                        </form>
+                                            <form action="{{ route('admin.users.update', $user) }}" method="POST"
+                                                class="my-form-class">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <label for="nom-{{ $user->id }}" class="form-label">Nom
+                                                            :</label>
+                                                        <input type="text" name="nom" id="nom-{{ $user->id }}"
+                                                            class="form-control" value="{{ $user->nom }}" required>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="prenom-{{ $user->id }}" class="form-label">Prénom
+                                                            :</label>
+                                                        <input type="text" name="prenom"
+                                                            id="prenom-{{ $user->id }}" class="form-control"
+                                                            value="{{ $user->prenom }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="login-{{ $user->id }}" class="form-label">Login
+                                                        :</label>
+                                                    <input type="text" name="login" id="login-{{ $user->id }}"
+                                                        class="form-control" value="{{ $user->login }}" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                                                    Enregistrer</button>
+                                            </form>
                                         </li>
                                         <li>
                                             <a href="{{ route('admin.users.changepassword', $user) }}"
@@ -113,7 +116,7 @@
                                             </form>
                                         </li>
                                         <li>
-                                            <form action="{{ route('admin.users.update', $user) }}" method="POST"
+                                            <form action="{{ route('admin.users.update.type', $user) }}" method="POST"
                                                 class="dropdown-item">
                                                 @csrf
                                                 @method('PUT')
@@ -122,12 +125,19 @@
                                                         type d'utilisateur :</label>
                                                     <select name="type" id="type-{{ $user->id }}"
                                                         class="form-select" required>
-                                                        <<option value="etudiant" {{ $user->type == 'etudiant' ? 'selected' : '' }}>Étudiant</option>
-                                                        <option value="enseignant" {{ $user->type == 'enseignant' ? 'selected' : '' }}>Enseignant</option>
-                                                        <option value="admin" {{ $user->type == 'admin' ? 'selected' : '' }}>Administrateur</option>
+                                                        <<option value="etudiant"
+                                                            {{ $user->type == 'etudiant' ? 'selected' : '' }}>Étudiant
+                                                            </option>
+                                                            <option value="enseignant"
+                                                                {{ $user->type == 'enseignant' ? 'selected' : '' }}>
+                                                                Enseignant</option>
+                                                            <option value="admin"
+                                                                {{ $user->type == 'admin' ? 'selected' : '' }}>
+                                                                Administrateur</option>
                                                     </select>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fas fa-save"></i>
                                                     Enregistrer</button>
                                             </form>
                                         </li>
@@ -173,4 +183,3 @@
         }
     </style>
 @endsection
-    

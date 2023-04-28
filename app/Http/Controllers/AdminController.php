@@ -47,7 +47,7 @@ class AdminController extends Controller
 
 
 
-    public function update(Request $request, User $user)
+    public function updateType(Request $request, User $user)
     {
         $user->update(['type' => $request->input('type')]);
         return redirect()->route('admin.users.index')->with('success', 'Type utilisateur modifié avec succès.');
