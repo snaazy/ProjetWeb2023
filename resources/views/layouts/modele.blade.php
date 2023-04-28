@@ -24,7 +24,6 @@
 </head>
 </head>
 <!-- Scripts de Bootstrap -->
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
 </script>
@@ -134,16 +133,19 @@
   color: white;
 }
 
+.pagination-violet .page-link {
+    background-color: violet;
+    border-color: violet;
+}
 
-
-.pagination-custom .page-link {
-    background-color: #6c278e;
-    border-color: #ffffff;
+.pagination-cusotm .page-link {
+    background-color: #8b5cf6;
+    border-color: #8b5cf6;
     color: #fff;
 }
 
-.pagination-custom .page-link:hover {
-    background-color: #783798;
+.custom-pagination .page-link:hover {
+    background-color: #6f42c1;
     border-color: #6f42c1;
     color: #fff;
 }
