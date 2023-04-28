@@ -32,7 +32,9 @@ class AdminController extends Controller
 
         $users = $query->paginate(5);
 
-        return view('admin.users.index', ['users' => $users]);
+        $enAttente = User::whereNull('type')->count();
+
+        return view('admin.users.index', compact('users', 'enAttente'));
     }
 
     public function approveUser(Request $request, User $user)
@@ -74,72 +76,70 @@ class AdminController extends Controller
             'new_password' => 'required|min:2',
             'new_password_confirmation' => 'required|same:new_password',
         ]);
-    
+
         $user->mdp = bcrypt($request->input('new_password'));
         $user->save();
-    
+
         $successMessage = 'Le mot de passe de l\'utilisateur a été modifié avec succès.';
         return redirect()->route('admin.users.index')->with(compact('successMessage'));
     }
-    
-    
 
 
 
     public function updateUser(Request $request, User $user)
-{
-    $request->validate([
-        'nom' => 'required|string|max:255',
-        'prenom' => 'required|string|max:255',
-        'login' => 'required|string|max:255|unique:users,login,' . $user->id,
-    ]);
-
-    $user->nom = $request->nom;
-    $user->prenom = $request->prenom;
-    $user->login = $request->login;
-    $user->save();
-
-    return redirect()->back()->with('success', 'Les informations de l\'utilisateur ont été mises à jour.');
-}
-
-public function showCreateUserForm()
-{
-    $formations = Formation::all();
-    return view('admin.create-user', ['formations' => $formations]);
-}
-public function create(Request $request)
-{
-    $request->validate([
-        'nom' => 'required|string|max:40',
-        'prenom' => 'required|string|max:40',
-        'login' => 'required|string|max:30|unique:users',
-        'mdp' => 'required|string|min:1',
-        'type' => 'required|in:etudiant,enseignant,admin',
-        'formation_id' => 'nullable|exists:formations,id'
-    ]);
-
-    $formation_id = $request->input('formation_id');
-    $type = $request->input('type');
-
-    if ($type == 'admin') {
-        $formation_id = null;
-    } elseif ($type == 'enseignant') {
-        $formation_id = null;
-    } else {
+    {
         $request->validate([
-            'formation_id' => 'required|exists:formations,id'
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'login' => 'required|string|max:255|unique:users,login,' . $user->id,
         ]);
+
+        $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
+        $user->login = $request->login;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Les informations de l\'utilisateur ont été mises à jour.');
     }
 
-    User::create([
-        'nom' => $request->input('nom'),
-        'prenom' => $request->input('prenom'),
-        'login' => $request->input('login'),
-        'mdp' => bcrypt($request->input('mdp')),
-        'formation_id' => $formation_id,
-        'type' => $type
-    ]);
+    public function showCreateUserForm()
+    {
+        $formations = Formation::all();
+        return view('admin.create-user', ['formations' => $formations]);
+    }
+    public function create(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:40',
+            'prenom' => 'required|string|max:40',
+            'login' => 'required|string|max:30|unique:users',
+            'mdp' => 'required|string|min:1',
+            'type' => 'required|in:etudiant,enseignant,admin',
+            'formation_id' => 'nullable|exists:formations,id'
+        ]);
 
-    return redirect('/admin')->with('success', 'Utilisateur créé avec succès.');
-}
+        $formation_id = $request->input('formation_id');
+        $type = $request->input('type');
+
+        if ($type == 'admin') {
+            $formation_id = null;
+        } elseif ($type == 'enseignant') {
+            $formation_id = null;
+        } else {
+            $request->validate([
+                'formation_id' => 'required|exists:formations,id'
+            ]);
+        }
+
+        User::create([
+            'nom' => $request->input('nom'),
+            'prenom' => $request->input('prenom'),
+            'login' => $request->input('login'),
+            'mdp' => bcrypt($request->input('mdp')),
+            'formation_id' => $formation_id,
+            'type' => $type
+        ]);
+
+        return redirect('/admin')->with('success', 'Utilisateur créé avec succès.');
+    }
 }

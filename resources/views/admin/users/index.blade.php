@@ -2,7 +2,31 @@
 @section('title', 'Liste des utilisateurs')
 @section('content')
     <div class="container mt-5">
+
+
         <h2 class="text-center mb-5">Gestion des utilisateurs</h2>
+        @if ($enAttente > 0)
+            <div class="position-fixed top-3 start-0 p-3" style="z-index: 9999">
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-secondary text-white">
+                        <strong class="me-auto">Notification</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Il y a {{ $enAttente }} utilisateur(s) en attente d'approbation.
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                var toast = new bootstrap.Toast(document.querySelector('.toast'), {
+                    autohide: true,
+                    delay: 5000
+                });
+                toast.show();
+            </script>
+        @endif
         <form method="GET" action="{{ route('admin.users.index') }}" class="row justify-content-center mb-5">
             <div class="col-md-4 mb-3">
                 <label for="search" class="form-label">Recherche</label>
@@ -98,13 +122,15 @@
                                                     <input type="text" name="login" id="login-{{ $user->id }}"
                                                         class="form-control" value="{{ $user->login }}" required>
                                                 </div>
-                                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fas fa-save"></i>
                                                     Enregistrer</button>
                                             </form>
                                         </li>
                                         <li>
                                             <a href="{{ route('admin.users.changepassword', $user) }}"
-                                                class="dropdown-item"><i class="fas fa-key"></i> Changer le mot de passe</a>
+                                                class="dropdown-item"><i class="fas fa-key"></i> Changer le mot de
+                                                passe</a>
                                         </li>
                                         <li>
                                             <form action="{{ route('users.destroy', $user) }}" method="POST"
