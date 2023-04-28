@@ -104,7 +104,7 @@
                         <th>Date de début</th>
                         <th>Date de fin</th>
                         <th>Enseignant</th>
-                        @if (Auth::user()->type == 'enseignant')
+                        @if (Auth::user()->type == 'enseignant' || Auth::user()->type == 'admin')
                             <th>Actions</th>
                         @endif
                     </tr>
@@ -117,6 +117,7 @@
                             <td>{{ \Carbon\Carbon::parse($session->date_fin)->format('d-m-Y H:i') }}</td>
                             <td>{{ $session->prenom }} {{ $session->nom }}</td>
                             @if (Auth::user()->type == 'enseignant' || Auth::user()->type == 'admin')
+
                                 <td>
                                     <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil-square"></i> Modifier

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-  
+
     /**
      * Vérifie si l'utilisateur est administrateur.
      */
@@ -32,7 +32,7 @@ class UserController extends Controller
         $formation = optional($user->formation)->intitule ?? "non-étudiant";
         return view('user.profile', compact('user', 'formation'));
     }
-    
+
 
 
     public function destroy(User $user)
@@ -49,67 +49,67 @@ class UserController extends Controller
             }
         }
     }
-    
 
-public function update(Request $request)
-{
-    $user = Auth::user();
 
-    $request->validate([
-        'nom' => 'required|string|max:255',
-        'prenom' => 'required|string|max:255',
-    ]);
+    public function update(Request $request)
+    {
+        $user = Auth::user();
 
-    $user->update([
-        'nom' => $request->nom,
-        'prenom' => $request->prenom,
-    ]);
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+        ]);
 
-    return redirect()->route('profil')->with('success', 'Les informations ont été mises à jour avec succès.');
-}
+        $user->update([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+        ]);
 
-public function show()
-{
-    $user = Auth::user();
-
-    if ($user->type == 'etudiant') {
-        $courses = $user->courses;
-    } else {
-        $courses = $user->assignedCourses;
+        return redirect()->route('profil')->with('success', 'Les informations ont été mises à jour avec succès.');
     }
 
-    return view('profil', [
-        'user' => $user,
-        'courses' => $courses,
-    ]);
-}
+    public function show()
+    {
+        $user = Auth::user();
 
+        if ($user->type == 'etudiant') {
+            $courses = $user->courses;
+        } else {
+            $courses = $user->assignedCourses;
+        }
 
-public function showChangePasswordForm()
-{
-    return view('user.changepassword');
-}
-
-public function changePassword(Request $request)
-{
-
-    $user = auth()->user();
-
-    $request->validate([
-        'current_password' => 'required',
-        'new_password' => 'required|min:2',
-        'new_password_confirmation' => 'required|same:new_password',
-    ]);
-
-    if (!Hash::check($request->input('current_password'), $user->mdp)) {
-        return redirect()->back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
+        return view('profil', [
+            'user' => $user,
+            'courses' => $courses,
+        ]);
     }
 
-    $user->mdp = bcrypt($request->input('new_password'));
-    $user->save();
 
-    return redirect()->route('profil')->with('etat', 'Le mot de passe a été modifié avec succès.');
-}
+    public function showChangePasswordForm()
+    {
+        return view('user.changepassword');
+    }
+
+    public function changePassword(Request $request)
+    {
+
+        $user = auth()->user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:2',
+            'new_password_confirmation' => 'required|same:new_password',
+        ]);
+
+        if (!Hash::check($request->input('current_password'), $user->mdp)) {
+            return redirect()->back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
+        }
+
+        $user->mdp = bcrypt($request->input('new_password'));
+        $user->save();
+
+        return redirect()->route('profil')->with('etat', 'Le mot de passe a été modifié avec succès.');
+    }
 
 
 

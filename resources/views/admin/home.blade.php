@@ -134,7 +134,7 @@
                             <i class="bi bi-calendar2-check card-icon"></i>
                             <h2 class="card-title">Gestion des plannings</h2>
                             <p class="card-text">Voyez la liste de tous les cours disponibles et gérez leur inscription.</p>
-                            <a href="" class="btn btn-lg btn-info">Accéder</a>
+                            <a href="{{ route('sessions.index') }}" class="btn btn-lg btn-info">Accéder</a>
                         </div>
                     </div>
                 </div>

@@ -49,33 +49,53 @@
                                 <h5 class="card-title"><i class="fas fa-user"></i> {{ $user->prenom }} {{ $user->nom }}
                                 </h5>
                                 <div class="dropdown">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-h"></i>
+                                        <i class="fas fa-cog"></i>
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if ($user->type === null)
-                                            <li>
-                                                <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item">Approuver</button>
-                                                </form>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('admin.users.refuse', $user->id) }}" method="post"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="dropdown-item">Refuser</button>
-                                                </form>
-                                            </li>
-                                        @endif
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <form action="{{ route('admin.users.update', $user) }}" method="POST"
+                                                class="my-form-class">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="row mb-2">
+                                                    <div class="col">
+                                                        <label for="nom-{{ $user->id }}" class="form-label">Nom
+                                                            :</label>
+                                                        <input type="text" name="nom" id="nom-{{ $user->id }}"
+                                                            class="form-control" value="{{ $user->nom }}" required>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="prenom-{{ $user->id }}" class="form-label">Prénom
+                                                            :</label>
+                                                        <input type="text" name="prenom"
+                                                            id="prenom-{{ $user->id }}" class="form-control"
+                                                            value="{{ $user->prenom }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label for="login-{{ $user->id }}" class="form-label">Login
+                                                        :</label>
+                                                    <input type="text" name="login" id="login-{{ $user->id }}"
+                                                        class="form-control" value="{{ $user->login }}" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                                                    Enregistrer</button>
+                                            </form>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ route('admin.users.changepassword', $user) }}"
+                                                class="dropdown-item"><i class="fas fa-key"></i> Changer le mot de passe</a>
+                                        </li>
                                         <li>
                                             <form action="{{ route('users.destroy', $user) }}" method="POST"
                                                 onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">Supprimer</button>
+                                                <button type="submit" class="dropdown-item text-danger"><i
+                                                        class="fas fa-trash"></i> Supprimer</button>
                                             </form>
                                         </li>
                                         <li>
@@ -83,32 +103,31 @@
                                                 class="dropdown-item">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="form-group mt-2">
+                                                <div class="mb-2">
                                                     <label for="type-{{ $user->id }}" class="form-label">Changer le
-                                                        type d'utilisateur</label>
-                                                    <div class="input-group">
-                                                        <select name="type" id="type-{{ $user->id }}"
-                                                            class="form-control" required>
-                                                            <option value="">Sélectionner un type</option>
-                                                            <option value="etudiant"
-                                                                {{ $user->type == 'etudiant' ? 'selected' : '' }}>Étudiant
-                                                            </option>
-                                                            <option value="enseignant"
-                                                                {{ $user->type == 'enseignant' ? 'selected' : '' }}>
-                                                                Enseignant</option>
-                                                            <option value="admin"
-                                                                {{ $user->type == 'admin' ? 'selected' : '' }}>
-                                                                Administrateur</option>
-                                                        </select>
-                                                        <button type="submit" class="btn btn-primary"><i
-                                                                class="fas fa-save"></i></button>
-                                                    </div>
+                                                        type d'utilisateur :</label>
+                                                    <select name="type" id="type-{{ $user->id }}"
+                                                        class="form-select" required>
+                                                        <option value="">Sélectionner un type</option>
+                                                        <option value="etudiant"
+                                                            {{ $user->type == 'etudiant' ? 'selected' : '' }}>Étudiant
+                                                        </option>
+                                                        <option value="enseignant"
+                                                            {{ $user->type == 'enseignant' ? 'selected' : '' }}>Enseignant
+                                                        </option>
+                                                        <option value="admin"
+                                                            {{ $user->type == 'admin' ? 'selected' : '' }}>Administrateur
+                                                        </option>
+                                                    </select>
                                                 </div>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fas fa-save"></i> Enregistrer</button>
                                             </form>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="mt-4">
                                 <p class="card-text"><strong>Login :</strong> {{ $user->login }}</p>
                                 <p class="card-text"><strong>Type :</strong> {{ $user->type }}</p>
@@ -123,4 +142,11 @@
             <!-- pour garder les filtres dans la pagination -->
         </div>
     </div>
+
+
+    <style>
+        .my-form-class {
+            padding: 10px;
+        }
+    </style>
 @endsection

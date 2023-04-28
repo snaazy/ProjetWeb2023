@@ -16,34 +16,17 @@ class SessionController extends Controller
         $week = $request->input('week');
         $sortByCourse = $request->input('sort_by_course');
 
-        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
-            ->join('users', 'cours.user_id', '=', 'users.id')
-            ->where('cours.user_id', '=', Auth::user()->id)
-            ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
-
-        if ($week == 'current') {
-            $startOfWeek = date('Y-m-d', strtotime('monday this week'));
-            $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
-            $sessions = $sessions->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
+        if (Auth::user()->type === 'admin') {
+            $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                ->join('users', 'cours.user_id', '=', 'users.id')
+                ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
+        } else {
+            $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+                ->join('users', 'cours.user_id', '=', 'users.id')
+                ->where('cours.user_id', '=', Auth::user()->id)
+                ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
         }
 
-        if ($sortByCourse) {
-            $sessions = $sessions->orderBy('cours.intitule');
-        }
-
-        $sessions = $sessions->paginate(5);
-
-        return view('sessions.index', compact('sessions'));
-    }
-    public function indexAdmin(Request $request)
-    {
-        $week = $request->input('week');
-        $sortByCourse = $request->input('sort_by_course');
-
-        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
-            ->join('users', 'cours.user_id', '=', 'users.id')
-           
-            ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
 
         if ($week == 'current') {
             $startOfWeek = date('Y-m-d', strtotime('monday this week'));
@@ -123,8 +106,15 @@ class SessionController extends Controller
         $session->date_fin = $request->input('date_fin');
         $session->save();
 
-        return redirect()->route('sessions.index', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
+        if (Auth::user()->type == 'admin') {
+            return redirect()->route('sessions.index')->with('success', 'La séance de cours a été modifiée avec succès.');
+        } else {
+            return redirect()->route('sessions.index', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
+        }
     }
+
+
+
 
     public function destroy($id)
     {
