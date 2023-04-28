@@ -116,7 +116,7 @@
                             <td>{{ \Carbon\Carbon::parse($session->date_debut)->format('d-m-Y H:i') }}</td>
                             <td>{{ \Carbon\Carbon::parse($session->date_fin)->format('d-m-Y H:i') }}</td>
                             <td>{{ $session->prenom }} {{ $session->nom }}</td>
-                            @if (Auth::user()->type == 'enseignant')
+                            @if (Auth::user()->type == 'enseignant' || Auth::user()->type == 'admin')
                                 <td>
                                     <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil-square"></i> Modifier
@@ -134,6 +134,10 @@
                             @endif
                         </tr>
                     @endforeach
+
+
+
+
                 </tbody>
             </table>
             <br>

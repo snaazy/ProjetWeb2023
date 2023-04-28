@@ -70,14 +70,20 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     Route::delete('/cours/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('cours.destroy');
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
+    Route::get('/sessionsAdmin', [App\Http\Controllers\SessionController::class, 'indexAdmin'])->name('sessionsAdmin.index');
+   
     
    
+});
+
+Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
+    Route::get('/sessions/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('sessions.edit');
 });
 
 
 Route::middleware(['auth', 'enseignant'])->group(function () {
     Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
-    Route::get('/sessions/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('sessions.edit');
+  
     Route::put('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('sessions.update');
     Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
     Route::get('/sessions/create', [App\Http\Controllers\SessionController::class, 'create'])->name('sessions.create');
