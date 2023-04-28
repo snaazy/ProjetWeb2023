@@ -17,11 +17,11 @@ class Planning extends Model
 
     public function cours()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Cours::class);
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id', Course::class);
+        return $this->belongsTo(User::class, 'user_id', 'id', Cours::class);
     }
     
 }

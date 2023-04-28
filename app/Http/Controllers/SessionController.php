@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Planning;
-use App\Models\Course;
+use App\Models\Cours;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,7 +45,7 @@ class SessionController extends Controller
 
     public function create()
     {
-        $courses = Course::all();
+        $courses = Cours::all();
         $enseignants = User::where('type', 'enseignant')->get();
         return view('sessions.create', compact('courses', 'enseignants'));
     }
@@ -66,7 +66,7 @@ class SessionController extends Controller
             return redirect()->back()->withErrors(['La durée de la séance de cours doit être de 1h, 2h, 3h ou 4h. Ce sont les règles de l\'université !']);
         }
 
-        $course = Course::findOrFail($request->input('course_id'));
+        $course = Cours::findOrFail($request->input('course_id'));
 
         $session = new Planning([
             'date_debut' => $request->input('date_debut'),

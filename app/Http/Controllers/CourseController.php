@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Course;
+use App\Models\Cours;
 use App\Models\Formation;
 
 
@@ -13,7 +13,7 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Course::with(['formation', 'user']);
+        $query = Cours::with(['formation', 'user']);
     
         if ($request->input('q')) {
             $query->where('intitule', 'like', '%' . $request->input('q') . '%');
@@ -48,7 +48,7 @@ class CourseController extends Controller
             'user_id' => 'required|integer|exists:users,id',
         ]);
     
-        $course = new Course([
+        $course = new Cours([
             'intitule' => $request->input('intitule'),
             'formation_id' => $request->input('formation_id'),
             'user_id' => $request->input('user_id'),
@@ -61,13 +61,13 @@ class CourseController extends Controller
 /* 
     public function show($id)
 {
-    $course = Course::with(['formation', 'user'])->findOrFail($id);
+    $course = Cours::with(['formation', 'user'])->findOrFail($id);
     return view('cours.show', compact('course'));
 } */
 
 public function show($id)
 {
-    $course = Course::with(['formation', 'user', 'plannings'])->findOrFail($id);
+    $course = Cours::with(['formation', 'user', 'plannings'])->findOrFail($id);
     return view('cours.show', compact('course'));
 }
 
@@ -78,7 +78,7 @@ public function show($id)
      */
     public function edit($id)
     {
-        $course = Course::findOrFail($id);
+        $course = Cours::findOrFail($id);
         $formations = Formation::all();
         $enseignants = User::where('type', 'enseignant')->get();
         return view('cours.edit', compact('course', 'formations', 'enseignants'));
@@ -92,7 +92,7 @@ public function show($id)
             'user_id' => 'required',
         ]);
     
-        $course = Course::findOrFail($id);
+        $course = Cours::findOrFail($id);
         $course->intitule = $request->intitule;
         $course->user_id = $request->user_id;
         $course->save();
@@ -103,7 +103,7 @@ public function show($id)
 
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
+        $course = Cours::findOrFail($id);
     
         // Supprime les séances de cours associées
         foreach ($course->plannings as $session) {
@@ -125,7 +125,7 @@ public function show($id)
         $formation_id = $user->formation_id;
         $search = $request->input('search');
     
-        $courses = Course::with(['formation', 'user'])
+        $courses = Cours::with(['formation', 'user'])
                         ->where('formation_id', $formation_id)
                         ->when($search, function ($query, $search) {
                             return $query->where('intitule', 'like', '%' . $search . '%');
@@ -139,7 +139,7 @@ public function show($id)
 public function enroll(int $id)
 {
     $user = auth()->user();
-    $course = Course::findOrFail($id);
+    $course = Cours::findOrFail($id);
 
     if ($user->courses->contains($course)) {
         return redirect()->route('student.courses')->with('warning', 'Vous êtes déjà inscrit à ce cours.');
@@ -154,7 +154,7 @@ public function enroll(int $id)
 public function unenroll(int $id)
 {
     $user = auth()->user();
-    $course = Course::findOrFail($id);
+    $course = Cours::findOrFail($id);
 
     if (!$user->courses->contains($id)) {
         return redirect()->route('student.courses')->with('warning', 'Vous n\'êtes pas inscrit à ce cours.');

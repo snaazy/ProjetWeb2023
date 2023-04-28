@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Formation;
-use App\Models\Course;
+use App\Models\Cours;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,11 +33,11 @@ class User extends Authenticatable
 
     public function cours(): HasMany
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Cours::class);
     }
     public function courses()
 {
-    return $this->belongsToMany(Course::class, 'cours_users', 'user_id', 'cours_id');
+    return $this->belongsToMany(Cours::class, 'cours_users', 'user_id', 'cours_id');
 }
 
 
@@ -54,7 +54,7 @@ class User extends Authenticatable
     public function assignedCourses()
 {
     if ($this->type === 'enseignant') {
-        return $this->hasMany(Course::class, 'user_id');
+        return $this->hasMany(Cours::class, 'user_id');
     }
 
     return null;
