@@ -28,17 +28,17 @@ Route::post('/login', [App\Http\Controllers\AuthenticatedSessionController::clas
 Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])
     ->name('logout');
 
-    Route::middleware(['auth', 'is_admin'])->group(function () {
-        Route::view('/admin', 'admin.home')->name('admin.home');
-    });
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::view('/admin', 'admin.home')->name('admin.home');
+});
     
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
     Route::get('/changepassword', [App\Http\Controllers\UserController::class, 'showChangePasswordForm'])->name('user.changePassword');
     Route::post('/changepassword', [App\Http\Controllers\UserController::class, 'changePassword']);
-
-    
+    Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning');
+    Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
 });
 
 
@@ -50,7 +50,6 @@ Route::post('/register', [App\Http\Controllers\RegisterController::class, 'regis
 
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
-
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
     Route::resource('formations', App\Http\Controllers\FormationController::class);
     Route::resource('admin/formations',App\Http\Controllers\FormationController::class)->except(['show']);
@@ -71,14 +70,9 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
     Route::delete('/cours/{id}', [App\Http\Controllers\CourseController::class, 'destroy'])->name('cours.destroy');
     Route::put('/cours/{id}', [App\Http\Controllers\CourseController::class, 'update'])->name('cours.update');
-
     Route::get('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'showChangePasswordUserForm'])->name('admin.users.changePasswordForm');
     Route::post('/admin/users/{user}/changepassword', [App\Http\Controllers\AdminController::class, 'changePasswordUser'])->name('admin.users.changepassword');
-   
     Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
-
-    
-   
 });
 
 Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
@@ -94,35 +88,11 @@ Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
   
 });
 
-
-
-
-
-
-
-
-
-Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning');
-
-Route::get('/inactive', function () {
-    return view('inactive');
-})->name('inactive')->middleware('auth');
-
-
-Route::middleware(['auth', 'ensureUserIsActive'])->group(function () {
-    Route::get('/', function () {
-        return view('main');
-    });
-   
-    
-});
-
-
 Route::get('/', function () {
     return view('main');
 })->middleware('ensureUserIsActive')->name('main');
 
-Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
 
 
 Route::get('/student/courses', [App\Http\Controllers\CourseController::class, 'studentCourses'])->name('student.courses');
