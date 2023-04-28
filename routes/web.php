@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 // Route pour la page de connexion
 Route::get('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'showLoginForm'])
-    ->name('login');
+    ->name('login')
+    ->middleware('throttle');
 
 // Route pour la soumission du formulaire de connexion
 Route::post('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'login']);
