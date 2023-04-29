@@ -167,7 +167,7 @@ background-color: #ffffff;
                     <i class="bi bi-calendar2-check option-icon option-icon-1"></i>
                     <h2 class="option-title">Gestion des plannings</h2>
                     <p class="option-text">Visualisez toutes les séances de cours planifiées et gérez leur suppression ou modification.</p>
-                    <a href="{{ route('sessions.index') }}" class="btn btn-lg btn-info">Accéder</a>
+                    <a href="{{ route('planning.index') }}" class="btn btn-lg btn-info">Accéder</a>
                 </div>
                 <div class="option">
                     <i class="bi bi-person-plus option-icon option-icon-2"></i>

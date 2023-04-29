@@ -79,21 +79,21 @@
 
         @if (Auth::user()->type == 'etudiant')
             <div class="btn-group">
-                <a href="{{ route('sessions.student_sessions') }}" class="btn btn-outline-primary"><i
+                <a href="{{ route('planning.student_sessions') }}" class="btn btn-outline-primary"><i
                         class="bi bi-plus-circle"></i> Voir le planning simplifié</a>
             </div>
         @endif
 
         <div class="btn-group">
-            <a href="{{ route('sessions.student_sessionsTable') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i>
+            <a href="{{ route('planning.student_sessionsTable') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i>
                 Toutes les séances</a>
-            <a href="{{ route('sessions.student_sessionsTable', ['sort_by_course' => 1]) }}"
+            <a href="{{ route('planning.student_sessionsTable', ['sort_by_course' => 1]) }}"
                 class="btn btn-outline-primary"><i class="bi bi-sort-alpha-down"></i> Trier par cours</a>
-            <a href="{{ route('sessions.student_sessionsTable', ['sort' => 'week', 'week' => 'current']) }}"
+            <a href="{{ route('planning.student_sessionsTable', ['sort' => 'week', 'week' => 'current']) }}"
                 class="btn btn-outline-primary"><i class="bi bi-sort-numeric-down"></i> Trier par cette semaine</a>
         </div>
 
-        @if ($sessions->isEmpty())
+        @if ($planning->isEmpty())
             <h2>Il n'y a aucune séance de cours programmée pour le moment.</h2>
         @else
             <table class="table table-bordered table-striped table-hover">
@@ -106,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($sessions as $session)
+                    @foreach ($planning as $session)
                         <tr>
                             <td>{{ $session->intitule }}</td>
                             <td>{{ \Carbon\Carbon::parse($session->date_debut)->format('d-m-Y H:i') }}</td>
@@ -116,7 +116,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $sessions->links() }}
+            {{ $planning->links() }}
         @endif
     </div>
 @endsection

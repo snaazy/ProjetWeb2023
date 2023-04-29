@@ -139,7 +139,7 @@
                         <div class="card-body">
                             <h3 class="card-title"><i class="fas fa-calendar-alt"></i> Gestion de planning</h3>
                             <hr class="my-4" style="border-top: 1px solid #555;">
-                            <a href="{{ route('sessions.index') }}" class="btn btn-primary mt-3">Accéder à la gestion des
+                            <a href="{{ route('planning.index') }}" class="btn btn-primary mt-3">Accéder à la gestion des
                                 plannings</a>
                         </div>
                     </div>

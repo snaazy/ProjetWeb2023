@@ -28,10 +28,10 @@
                 <div class="col-md-12 text-center">
                     <h2 class="mb-4">Que souhaitez-vous faire ?</h2>
                     @if (auth()->user()->type === 'etudiant')
-                        <a href="{{ route('sessions.student_planning') }}" class="btn btn-primary me-3">Voir le planning</a>
+                        <a href="{{ route('planning.student_planning') }}" class="btn btn-primary me-3">Voir le planning</a>
                         <a href="{{ route('student.courses') }}" class="btn btn-primary">Voir les cours de ma formation</a>
                     @elseif(auth()->user()->type === 'enseignant')
-                        <a href="{{ route('sessions.index') }}" class="btn btn-primary me-3">Voir le planning</a>
+                        <a href="{{ route('planning.index') }}" class="btn btn-primary me-3">Voir le planning</a>
                         <a href="{{ route('student.courses') }}" class="btn btn-primary">Voir les cours de ma formation</a>
                     @endif
                 </div>

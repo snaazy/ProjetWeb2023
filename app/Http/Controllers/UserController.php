@@ -114,7 +114,7 @@ class UserController extends Controller
         $user->mdp = bcrypt($request->input('new_password'));
         $user->save();
 
-        return redirect()->route('profil')->with('etat', 'Le mot de passe a été modifié avec succès.');
+        return redirect()->route('profil')->with('success', 'Le mot de passe a été modifié avec succès.');
     }
 
     public function store(Request $request)
@@ -127,7 +127,7 @@ class UserController extends Controller
             'formation_id' => 'nullable|exists:formations,id',
             'type' => 'required|in:etudiant,enseignant,admin',
         ]);
-        
+
         // Création d'un nouvel utilisateur avec les données du formulaire
         User::create([
             'nom' => $request->input('nom'),

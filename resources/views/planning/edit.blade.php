@@ -30,7 +30,7 @@
                     <div class="card shadow-lg">
                         <div class="card-body">
                             <h1 class="mb-4 text-center">Modifier la séance de cours</h1>
-                            <form action="{{ route('sessions.update', $session->id) }}" method="POST">
+                            <form action="{{ route('planning.update', $session->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 

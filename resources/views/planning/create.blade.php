@@ -32,7 +32,7 @@
                                 </div>
                             @endif
 
-                            <form method="POST" action="{{ route('sessions.store') }}">
+                            <form method="POST" action="{{ route('planning.store') }}">
                                 @csrf
 
                                 <div class="form-group mb-4">

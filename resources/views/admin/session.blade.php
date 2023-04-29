@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1 class="text-center">Créer une séance de cours</h1>
-        <form action="{{ route('sessions.store') }}" method="POST">
+        <form action="{{ route('planning.store') }}" method="POST">
             @csrf
 
             <div class="mb-3">

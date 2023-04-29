@@ -77,24 +77,24 @@
     <div class="container">
         <h1 class="title">Liste des séances de cours</h1>
         <div class="btn-group" role="group">
-            <a href="{{ route('sessions.index') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i> Toutes les
+            <a href="{{ route('planning.index') }}" class="btn btn-outline-primary"><i class="bi bi-list"></i> Toutes les
                 séances</a>
             @if (Auth::user()->type == 'enseignant')
-                <a href="{{ route('sessions.create') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>
+                <a href="{{ route('planning.create') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i>
                     Créer une séance de cours</a>
             @endif
-            <a href="{{ route('sessions.index', ['week' => 'current']) }}" class="btn btn-outline-primary"><i
+            <a href="{{ route('planning.index', ['week' => 'current']) }}" class="btn btn-outline-primary"><i
                     class="bi bi-calendar-week"></i> Séances de la semaine</a>
             @if (Auth::user()->type == 'etudiant')
-                <a href="{{ route('sessions.student_planning') }}" class="btn btn-outline-primary"><i
+                <a href="{{ route('planning.student_planning') }}" class="btn btn-outline-primary"><i
                         class="bi bi-plus-circle"></i>Voir le planning simplifié</a>
             @endif
-            <a href="{{ route('sessions.index', ['sort_by_course' => 1]) }}" class="btn btn-outline-primary"><i
+            <a href="{{ route('planning.index', ['sort_by_course' => 1]) }}" class="btn btn-outline-primary"><i
                     class="bi bi-sort-alpha-down"></i> Trier par cours</a>
 
         </div>
 
-        @if ($sessions->isEmpty())
+        @if ($planning->isEmpty())
             <h2> Il n'y a aucune séance de cours programmées pour le moment.</h2>
         @else
             <table class="table table-bordered table-striped table-hover">
@@ -110,7 +110,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($sessions as $session)
+                    @foreach ($planning as $session)
                         <tr>
                             <td>{{ $session->intitule }}</td>
                             <td>{{ \Carbon\Carbon::parse($session->date_debut)->format('d-m-Y H:i') }}</td>
@@ -119,10 +119,10 @@
                             @if (Auth::user()->type == 'enseignant' || Auth::user()->type == 'admin')
 
                                 <td>
-                                    <a href="{{ route('sessions.edit', $session->id) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('planning.edit', $session->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil-square"></i> Modifier
                                     </a>
-                                    <form action="{{ route('sessions.destroy', $session->id) }}" method="POST"
+                                    <form action="{{ route('planning.destroy', $session->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -143,7 +143,7 @@
             </table>
             <br>
             <div class="d-flex justify-content-center">
-                {{ $sessions->links() }}
+                {{ $planning->links() }}
             </div>
         @endif
     </div>

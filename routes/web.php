@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
     Route::get('/changepassword', [App\Http\Controllers\UserController::class, 'showChangePasswordForm'])->name('user.changePassword');
     Route::post('/changepassword', [App\Http\Controllers\UserController::class, 'changePassword']);
-    Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('sessions.student_planning');
+    Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('planning.student_planning');
     Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
 });
 
@@ -80,15 +80,15 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
-    Route::get('/sessions/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('sessions.edit');
-    Route::put('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('sessions.update');
-    Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
-    Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
-    Route::get('/sessions/create', [App\Http\Controllers\SessionController::class, 'create'])->name('sessions.create');
-    Route::post('/sessions', [App\Http\Controllers\SessionController::class, 'store'])->name('sessions.store');
-    Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
+    Route::get('/planning/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('planning.edit');
+    Route::put('/planning/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('planning.update');
+    Route::delete('/planning/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('planning.destroy');
+    Route::get('/planning', [App\Http\Controllers\SessionController::class, 'index'])->name('planning.index');
+    Route::get('/planning/create', [App\Http\Controllers\SessionController::class, 'create'])->name('planning.create');
+    Route::post('/planning', [App\Http\Controllers\SessionController::class, 'store'])->name('planning.store');
+    Route::delete('/planning/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('planning.destroy');
     Route::get('/cours/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('cours.show');
-    Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
+    Route::get('/planning', [App\Http\Controllers\SessionController::class, 'index'])->name('planning.index');
 
 });
 
@@ -106,6 +106,6 @@ Route::get('/student/my-courses', [App\Http\Controllers\CourseController::class,
 
 
 
-Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
-Route::get('/student-sessions', 'App\Http\Controllers\SessionController@studentPlanning')->name('sessions.student_sessions');
-Route::get('/student-sessions-table', 'App\Http\Controllers\SessionController@studentPlanningTable')->name('sessions.student_sessionsTable');
+Route::get('/planning', [App\Http\Controllers\SessionController::class, 'index'])->name('planning.index');
+Route::get('/student-planning', 'App\Http\Controllers\SessionController@studentPlanning')->name('planning.student_sessions');
+Route::get('/student-planning-table', 'App\Http\Controllers\SessionController@studentPlanningTable')->name('planning.student_sessionsTable');

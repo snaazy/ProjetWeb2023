@@ -6,18 +6,18 @@
 
         <div class="row">
             <div class="btn-group">
-                <a href="{{ route('sessions.student_sessionsTable') }}" class="btn btn-outline-primary"><i
+                <a href="{{ route('planning.student_sessionsTable') }}" class="btn btn-outline-primary"><i
                         class="bi bi-plus-circle"></i> Voir le planning avancé</a>
             </div>
 
             <div class="col-md-12">
                 <div class="btn-group" role="group">
-                    <a href="{{ route('sessions.student_planning', ['week' => $week - 1]) }}"
+                    <a href="{{ route('planning.student_planning', ['week' => $week - 1]) }}"
                         class="btn btn-outline-secondary">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                     <button type="button" class="btn btn-outline-secondary">{{ 'Semaine ' . $week }}</button>
-                    <a href="{{ route('sessions.student_planning', ['week' => $week + 1]) }}"
+                    <a href="{{ route('planning.student_planning', ['week' => $week + 1]) }}"
                         class="btn btn-outline-secondary">
                         <i class="bi bi-chevron-right"></i>
                     </a>
@@ -47,7 +47,7 @@
                                 @php
                                     $sessionTrouvee = false;
                                 @endphp
-                                @foreach ($sessions as $session)
+                                @foreach ($planning as $session)
                                     @php
                                         $dateDebut = new DateTime($session->date_debut);
                                         $heureDebut = $dateDebut->format('G');

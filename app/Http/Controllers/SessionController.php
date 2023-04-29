@@ -21,12 +21,12 @@ class SessionController extends Controller
         // Initialise la requête pour récupérer les séances de cours
         if (Auth::user()->type === 'admin') {
             // Si l'utilisateur est un administrateur, récupère toutes les séances de cours avec les informations du cours et de l'utilisateur associés
-            $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+            $planning = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
                 ->join('users', 'cours.user_id', '=', 'users.id')
                 ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
         } else {
             // Sinon, récupère les séances de cours pour les cours enseignés par l'utilisateur connecté avec les informations du cours et de l'utilisateur associés
-            $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+            $planning = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
                 ->join('users', 'cours.user_id', '=', 'users.id')
                 ->where('cours.user_id', '=', Auth::user()->id)
                 ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom');
@@ -36,24 +36,24 @@ class SessionController extends Controller
         if ($week == 'current') {
             $startOfWeek = date('Y-m-d', strtotime('monday this week'));
             $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
-            $sessions = $sessions->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
+            $planning = $planning->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
         }
         // Trie les séances de cours par cours si l'option est sélectionnée
         if ($sortByCourse) {
-            $sessions = $sessions->orderBy('cours.intitule');
+            $planning = $planning->orderBy('cours.intitule');
         }
 
-        $sessions = $sessions->paginate(5);
+        $planning = $planning->paginate(5);
 
         // Renvoie la vue avec les séances de cours paginées
-        return view('sessions.index', compact('sessions'));
+        return view('planning.index', compact('planning'));
     }
 
     public function create()
     {
         $courses = Cours::all();
         $enseignants = User::where('type', 'enseignant')->get();
-        return view('sessions.create', compact('courses', 'enseignants'));
+        return view('planning.create', compact('courses', 'enseignants'));
     }
 
 
@@ -84,7 +84,7 @@ class SessionController extends Controller
         // Associe la nouvelle séance de cours au cours correspondant
         $course->plannings()->save($session);
         // Redirige l'utilisateur vers la liste des séances de cours avec un message de succès
-        return redirect()->route('sessions.index', $course->id)->with('success', 'La séance de cours a été créée avec succès.');
+        return redirect()->route('planning.index', $course->id)->with('success', 'La séance de cours a été créée avec succès.');
     }
 
 
@@ -92,7 +92,7 @@ class SessionController extends Controller
     public function edit($id)
     {
         $session = Planning::findOrFail($id);
-        return view('sessions.edit', compact('session'));
+        return view('planning.edit', compact('session'));
     }
 
     public function update(Request $request, $id)
@@ -118,9 +118,9 @@ class SessionController extends Controller
 
         // Redirection vers la page des séances de cours avec un message de succès en fonction du type d'utilisateur
         if (Auth::user()->type == 'admin') {
-            return redirect()->route('sessions.index')->with('success', 'La séance de cours a été modifiée avec succès.');
+            return redirect()->route('planning.index')->with('success', 'La séance de cours a été modifiée avec succès.');
         } else {
-            return redirect()->route('sessions.index', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
+            return redirect()->route('planning.index', $session->cours->id)->with('success', 'La séance de cours a été modifiée avec succès.');
         }
     }
 
@@ -134,7 +134,7 @@ class SessionController extends Controller
         // Supprime la séance de cours de la base de données
         $session->delete();
 
-        return redirect()->route('sessions.index', $courseId)->with('success', 'La séance de cours a été supprimée avec succès.');
+        return redirect()->route('planning.index', $courseId)->with('success', 'La séance de cours a été supprimée avec succès.');
     }
 
 
@@ -143,7 +143,7 @@ class SessionController extends Controller
         // Récupère l'id de l'utilisateur actuel
         $user_id = auth()->id();
         // Récupère les séances de cours associées aux cours suivis par l'utilisateur actuel
-        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+        $planning = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
             ->join('cours_users', 'cours.id', '=', 'cours_users.cours_id')
             ->join('users', 'cours.user_id', '=', 'users.id')
             ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
@@ -155,7 +155,7 @@ class SessionController extends Controller
         }
 
         // Retourne la vue qui affiche les séances de cours et la semaine courante 
-        return view('sessions.etudiant', compact('week', 'sessions'));
+        return view('planning.etudiant', compact('week', 'planning'));
     }
 
     public function studentPlanningTable(Request $request)
@@ -164,28 +164,28 @@ class SessionController extends Controller
         // Récupération des paramètres de tri et de la semaine courante
         $sortByCourse = $request->input('sort_by_course');
         $week = $request->input('week');
-        // Jointure des tables Planning, Cours, Cours_Users et Users pour récupérer les informations des sessions de cours
-        $sessions = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
+        // Jointure des tables Planning, Cours, Cours_Users et Users pour récupérer les informations des planning de cours
+        $planning = Planning::join('cours', 'plannings.cours_id', '=', 'cours.id')
             ->join('cours_users', 'cours.id', '=', 'cours_users.cours_id')
             ->join('users', 'cours.user_id', '=', 'users.id')
             ->select('plannings.*', 'cours.intitule', 'users.nom', 'users.prenom')
             ->where('cours_users.user_id', $user_id);
-         // Tri des sessions de cours par cours si l'option de tri est activée
+         // Tri des planning de cours par cours si l'option de tri est activée
         if ($sortByCourse) {
-            $sessions = $sessions->orderBy('cours.intitule');
+            $planning = $planning->orderBy('cours.intitule');
         }
-        // Filtrage des sessions de cours pour la semaine courante si l'option est activée
+        // Filtrage des planning de cours pour la semaine courante si l'option est activée
         if ($week == 'current') {
             $startOfWeek = date('Y-m-d', strtotime('monday this week'));
             $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
-            $sessions = $sessions->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
-        } else if ($week != null) { // Filtrage des sessions de cours pour une semaine spécifique si une semaine est spécifiée
-            $sessions = $sessions->whereRaw('WEEK(plannings.date_debut) = ?', [$week])->orderBy('plannings.date_debut');
+            $planning = $planning->whereBetween('date_debut', [$startOfWeek, $endOfWeek]);
+        } else if ($week != null) { // Filtrage des planning de cours pour une semaine spécifique si une semaine est spécifiée
+            $planning = $planning->whereRaw('WEEK(plannings.date_debut) = ?', [$week])->orderBy('plannings.date_debut');
         }
 
-        $sessions = $sessions->paginate(10);
+        $planning = $planning->paginate(10);
 
-        return view('sessions.etudiant_table', compact('week', 'sessions'));
+        return view('planning.etudiant_table', compact('week', 'planning'));
     }
 
 

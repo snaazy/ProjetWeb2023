@@ -201,7 +201,7 @@
                     </li>
                     @if(Auth::user()->type == 'enseignant')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('sessions.index') }}">Gestion de planning</a>
+                        <a class="nav-link" href="{{ route('planning.index') }}">Gestion de planning</a>
                     </li>
                     @endif
                     @if (auth()->check() && auth()->user()->isAdmin())
