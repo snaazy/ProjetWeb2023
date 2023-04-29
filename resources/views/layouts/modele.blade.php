@@ -23,7 +23,6 @@
 
 </head>
 </head>
-<!-- Scripts de Bootstrap -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
@@ -112,46 +111,42 @@
     .page-content {
         padding-bottom: 60px;
     }
+
     .btn-deconnexion {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-}
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+    }
 
-.btn-deconnexion:focus,
-.btn-deconnexion:hover {
-  background-color: #6c278e;
-  color: white;
-}
+    .btn-deconnexion:focus,
+    .btn-deconnexion:hover {
+        background-color: #6c278e;
+        color: white;
+    }
 
-.btn-profile {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-}
+    .btn-profile {
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+    }
 
-.btn-profile:focus,
-.btn-profile:hover {
-  background-color: #6c278e;
-  color: white;
-}
-
-
-
-.pagination-custom .page-link {
-    background-color: #6c278e;
-    border-color: #ffffff;
-    color: #fff;
-}
-
-.pagination-custom .page-link:hover {
-    background-color: #783798;
-    border-color: #6f42c1;
-    color: #fff;
-}
+    .btn-profile:focus,
+    .btn-profile:hover {
+        background-color: #6c278e;
+        color: white;
+    }
 
 
 
+    .pagination-custom .page-link {
+        background-color: #6c278e;
+        border-color: #ffffff;
+        color: #fff;
+    }
 
-
+    .pagination-custom .page-link:hover {
+        background-color: #783798;
+        border-color: #6f42c1;
+        color: #fff;
+    }
 </style>
 
 
@@ -172,43 +167,46 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('main') }}">Accueil</a>
                     </li>
                     @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Se connecter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">S'enregistrer</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">S'enregistrer</a>
+                        </li>
                     @endguest
                     @auth
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> {{ Auth::user()->prenom }} {{ Auth::user()->nom }}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item btn-profile" href="{{ route('profil') }}">Mon profil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item btn-deconnexion">
-                                      <i class="bi bi-box-arrow-right"></i> Se déconnecter
-                                    </button>
-                                  </form>
-                                  
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> {{ Auth::user()->prenom }} {{ Auth::user()->nom }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item btn-profile" href="{{ route('profil') }}">Mon profil</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item btn-deconnexion">
+                                            <i class="bi bi-box-arrow-right"></i> Se déconnecter
+                                        </button>
+                                    </form>
+
+                                </li>
+                            </ul>
+                        </li>
+                        @if (Auth::user()->type == 'enseignant')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('planning.index') }}">Gestion de planning</a>
                             </li>
-                        </ul>
-                    </li>
-                    @if(Auth::user()->type == 'enseignant')
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('planning.index') }}">Gestion de planning</a>
-                    </li>
-                    @endif
-                    @if (auth()->check() && auth()->user()->isAdmin())
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.home') }}">Portail Admin</a>
-                    </li>
-                    @endif
+                        @endif
+                        @if (auth()->check() &&
+                                auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.home') }}">Portail Admin</a>
+                            </li>
+                        @endif
                     @endauth
                 </ul>
             </div>

@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Modifier une formation')
 @section('content')
     <div class="container my-5">
         <div class="row">

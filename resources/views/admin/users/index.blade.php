@@ -49,6 +49,11 @@
             <div class="col-md-2 mb-3 d-flex align-items-end justify-content-center">
                 <button type="submit" class="btn btn-primary">Filtrer</button>
             </div>
+            <div class="col-md-2 mb-3 d-flex align-items-end justify-content-center">
+                <button type="submit" class="btn btn-primary" formaction="{{ route('users.create') }}">Créer un
+                    utilisateur</button>
+            </div>
+
         </form>
         <div class="alert alert-secondary mt-4" role="alert">
             <p>Avant de supprimer un utilisateur, veuillez vous assurer que toutes les données liées ont été supprimées,
@@ -80,7 +85,8 @@
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                         @if ($user->type === null)
                                             <li>
-                                                <form action="{{ route('admin.users.approve', $user->id) }}" method="POST">
+                                                <form action="{{ route('admin.users.approve', $user->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     <button type="submit" class="dropdown-item"><i
                                                             class="fas fa-check"></i> Approuver</button>

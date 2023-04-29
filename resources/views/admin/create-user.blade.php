@@ -1,5 +1,5 @@
 @extends('layouts.modele')
-
+@section('title', 'Créer un utilisateur')
 @section('content')
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -55,11 +55,12 @@
                                     required autocomplete="new-password">
                             </div>
 
-                          
+
 
                             <div class="form-group">
                                 <label for="type">{{ __('Type') }}</label>
-                                <select name="type" class="form-control custom-select @error('type') is-invalid @enderror" id="type">
+                                <select name="type"
+                                    class="form-control custom-select @error('type') is-invalid @enderror" id="type">
                                     <option value="etudiant" {{ old('type') == 'etudiant' ? 'selected' : '' }}>
                                         {{ __('Etudiant') }}</option>
                                     <option value="enseignant" {{ old('type') == 'enseignant' ? 'selected' : '' }}>
@@ -71,29 +72,29 @@
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
-                            @if(old('type') !== 'admin' && old('type') !== 'enseignant')
 
-                            <div class="form-group">
-                                <label for="formation_id">{{ __('Formation') }}</label>
-                                <select name="formation_id" id="formation_id" class="form-control custom-select @error('formation_id') is-invalid @enderror">
-                                    <option value="">{{ __('Sélectionnez une formation') }}</option>
-                                    @foreach($formations as $formation)
-                                        <option value="{{ $formation->id }}" {{ old('formation_id') == $formation->id ? 'selected' : '' }}>
-                                        {{ $formation->intitule }}</option>
-                                    @endforeach
-                                </select>
-                                <small class="text-muted">Optionnel pour les enseignants et admin</small>
-                                @error('formation_id')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                         
-                        
-                            </div>
-                            
+                            @if (old('type') !== 'admin' && old('type') !== 'enseignant')
+                                <div class="form-group">
+                                    <label for="formation_id">{{ __('Formation') }}</label>
+                                    <select name="formation_id" id="formation_id"
+                                        class="form-control custom-select @error('formation_id') is-invalid @enderror">
+                                        <option value="">{{ __('Sélectionnez une formation') }}</option>
+                                        @foreach ($formations as $formation)
+                                            <option value="{{ $formation->id }}"
+                                                {{ old('formation_id') == $formation->id ? 'selected' : '' }}>
+                                                {{ $formation->intitule }}</option>
+                                        @endforeach
+                                    </select>
+                                    <small class="text-muted">Optionnel pour les enseignants et admin</small>
+                                    @error('formation_id')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+
+
+                                </div>
                             @endif
-                            
-                            
+
+
                             <div class="form-group mt-4">
                                 <button type="submit"
                                     class="btn btn-primary rounded-pill">{{ __('Enregistrer') }}</button>

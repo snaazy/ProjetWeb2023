@@ -82,6 +82,6 @@
         <div class="d-flex justify-content-center pagination-custom">
             {{ $courses->links() }}
         </div>
-        
+
     </div>
 @endsection

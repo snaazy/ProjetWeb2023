@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route qui verifie si l'utilisateur est actif avant de lui permettre d'accéder à la page principale
+Route::get('/', function () {
+    return view('main');
+})->middleware('ensureUserIsActive')->name('main');
+
 
 // Route pour la page de connexion
 Route::get('/login', [App\Http\Controllers\AuthenticatedSessionController::class, 'showLoginForm'])
@@ -28,27 +33,32 @@ Route::post('/login', [App\Http\Controllers\AuthenticatedSessionController::clas
 Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])
     ->name('logout');
 
-Route::middleware(['auth', 'is_admin'])->group(function () {
-    Route::view('/admin', 'admin.home')->name('admin.home');
-});
+Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRegistrationForm'])
+    ->name('register');
+Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
 
+// Groupe de routes pour les utilisateurs connectés
 Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
     Route::get('/changepassword', [App\Http\Controllers\UserController::class, 'showChangePasswordForm'])->name('user.changePassword');
     Route::post('/changepassword', [App\Http\Controllers\UserController::class, 'changePassword']);
     Route::get('/etudiant/planning/{week?}', [App\Http\Controllers\SessionController::class, 'studentPlanning'])->name('planning.student_planning');
     Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+    Route::get('/student/courses', [App\Http\Controllers\CourseController::class, 'studentCourses'])->name('student.courses');
+    Route::post('/student/courses/{id}/enroll', [App\Http\Controllers\CourseController::class, 'enroll'])->name('student.enroll');
+    Route::post('/student/courses/{id}/unenroll', [App\Http\Controllers\CourseController::class, 'unenroll'])->name('student.unenroll');
+    Route::get('/planning', [App\Http\Controllers\SessionController::class, 'index'])->name('planning.index');
+    Route::get('/student-planning', 'App\Http\Controllers\SessionController@studentPlanning')->name('planning.student_sessions');
+    Route::get('/student-planning-table', 'App\Http\Controllers\SessionController@studentPlanningTable')->name('planning.student_sessionsTable');
+    
 });
 
-
-
-Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRegistrationForm'])
-    ->name('register');
-Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
-
-
+// Groupe de routes pour les utilisateurs administrateurs
 Route::middleware(['auth', 'is_admin'])->group(function () {
+
+    Route::view('/admin', 'admin.home')->name('admin.home');
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
     Route::resource('formations', App\Http\Controllers\FormationController::class);
     Route::resource('admin/formations', App\Http\Controllers\FormationController::class)->except(['show']);
@@ -75,11 +85,11 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::put('/admin/users/{user}/type', [App\Http\Controllers\AdminController::class, 'updateType'])->name('admin.users.update.type');
 
-
-
 });
 
+// Groupe de routes pour les utilisateurs administrateur ou enseignant 
 Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
+
     Route::get('/planning/{session}/edit', [App\Http\Controllers\SessionController::class, 'edit'])->name('planning.edit');
     Route::put('/planning/{session}', [App\Http\Controllers\SessionController::class, 'update'])->name('planning.update');
     Route::delete('/planning/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('planning.destroy');
@@ -92,20 +102,4 @@ Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
 
 });
 
-Route::get('/', function () {
-    return view('main');
-})->middleware('ensureUserIsActive')->name('main');
 
-
-
-
-Route::get('/student/courses', [App\Http\Controllers\CourseController::class, 'studentCourses'])->name('student.courses');
-Route::post('/student/courses/{id}/enroll', [App\Http\Controllers\CourseController::class, 'enroll'])->name('student.enroll');
-Route::post('/student/courses/{id}/unenroll', [App\Http\Controllers\CourseController::class, 'unenroll'])->name('student.unenroll');
-Route::get('/student/my-courses', [App\Http\Controllers\CourseController::class, 'myCourses'])->name('student.mycourses');
-
-
-
-Route::get('/planning', [App\Http\Controllers\SessionController::class, 'index'])->name('planning.index');
-Route::get('/student-planning', 'App\Http\Controllers\SessionController@studentPlanning')->name('planning.student_sessions');
-Route::get('/student-planning-table', 'App\Http\Controllers\SessionController@studentPlanningTable')->name('planning.student_sessionsTable');

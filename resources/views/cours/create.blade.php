@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-center">
             <form method="POST" action="{{ route('cours.store') }}" class="p-5 shadow">
                 @csrf
-                <!-- Intitulé du cours -->
+
                 <div class="form-group">
                     <label for="intitule" class="h4">Intitulé du cours</label>
                     <input type="text" name="intitule" id="intitule"
@@ -20,7 +20,7 @@
                     @enderror
                 </div>
 
-                <!-- Formation -->
+
                 <div class="form-group">
                     <label for="formation_id" class="h4">Formation</label>
                     <select class="form-control form-control-lg @error('formation_id') is-invalid @enderror"
@@ -36,7 +36,7 @@
                     @enderror
                 </div>
 
-                <!-- Enseignant -->
+
                 <div class="form-group">
                     <label for="user_id" class="h4">Enseignant</label>
                     <select class="form-control form-control-lg @error('user_id') is-invalid @enderror" id="user_id"

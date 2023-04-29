@@ -185,17 +185,6 @@ public function unenroll(int $id)
 }
 
 
-public function myCourses() 
-{   
-    // Récupère l'utilisateur authentifié
-    $user = auth()->user();
-    // Récupère les cours associés à l'utilisateur 
-    $courses = $user->courses()->with(['formation', 'user'])->get();
-
-    return view('cours.mycourses', compact('courses'));
-}
-
-
 
 
 }

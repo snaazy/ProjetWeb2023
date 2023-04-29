@@ -7,7 +7,7 @@
                 <h2 class="my-4">Liste des formations</h2>
                 <a href="{{ route('admin.formations.create') }}" class="btn btn-primary mb-3"><i class="fas fa-plus"></i>
                     Ajouter une formation</a>
-                @if(count($formations) == 0)
+                @if (count($formations) == 0)
                     <div class="alert alert-info" role="alert">
                         Aucune formation trouvée.
                     </div>
@@ -24,9 +24,11 @@
                             <tbody>
                                 @foreach (['success', 'danger', 'warning', 'error'] as $alert)
                                     @if (session($alert))
-                                        <div class="alert alert-{{ $alert }} alert-dismissible fade show" role="alert">
+                                        <div class="alert alert-{{ $alert }} alert-dismissible fade show"
+                                            role="alert">
                                             {!! session($alert) !!}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
                                         </div>
                                     @endif
                                 @endforeach
@@ -44,7 +46,7 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"
                                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette formation? Note: Si un étudiant ou plusieurs sont inscrits à cette formation, vous les affecterez au type null, et devront faire une nouvelle demande d\'inscription à une formation.')"><i
-                                                            class="fas fa-trash"></i> Supprimer</button>
+                                                        class="fas fa-trash"></i> Supprimer</button>
                                             </form>
                                         </td>
                                     </tr>
