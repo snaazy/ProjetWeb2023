@@ -87,7 +87,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center pagination-custom">
+                    <div class="d-flex justify-content-center pagination-custom ">
                         {{ $cours->links() }}
                     </div>
                 @endif

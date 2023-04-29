@@ -134,8 +134,6 @@
         color: white;
     }
 
-
-
     .pagination-custom .page-link {
         background-color: #6c278e;
         border-color: #ffffff;
