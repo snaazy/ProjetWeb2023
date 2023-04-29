@@ -36,9 +36,9 @@ class User extends Authenticatable
         return $this->hasMany(Cours::class);
     }
     public function courses()
-{
-    return $this->belongsToMany(Cours::class, 'cours_users', 'user_id', 'cours_id');
-}
+    {
+        return $this->belongsToMany(Cours::class, 'cours_users', 'user_id', 'cours_id');
+    }
 
 
     public function isAdmin()
@@ -52,12 +52,12 @@ class User extends Authenticatable
     }
 
     public function assignedCourses()
-{
-    if ($this->type === 'enseignant') {
-        return $this->hasMany(Cours::class, 'user_id');
-    }
+    {
+        if ($this->type === 'enseignant') {
+            return $this->hasMany(Cours::class, 'user_id');
+        }
 
-    return null;
-}
+        return null;
+    }
 
 }

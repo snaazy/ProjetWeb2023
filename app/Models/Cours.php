@@ -10,7 +10,7 @@ class Cours extends Model
     use HasFactory;
 
     protected $table = 'cours';
-    
+
 
     protected $fillable = [
         'intitule',
@@ -27,20 +27,17 @@ class Cours extends Model
     {
         return $this->belongsTo(Formation::class);
     }
-    
 
-    // Ajoutez cette méthode si vous avez besoin de récupérer les étudiants associés à un cours
     public function students()
     {
         return $this->belongsToMany(User::class, 'cours_users', 'cours_id', 'user_id');
     }
 
-   
     public function plannings()
-{
-    return $this->hasMany(Planning::class, 'cours_id');
-}
+    {
+        return $this->hasMany(Planning::class, 'cours_id');
+    }
 
-    
+
 
 }

@@ -22,5 +22,5 @@ class Formation extends Model
     {
         return $this->hasMany(Cours::class);
     }
-    
+
 }
