@@ -16,12 +16,13 @@ class EnsureUserIsActive
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-    
+        // Vérifier si l'utilisateur est connecté et que son type est "null"
         if (auth()->check() && ($user->type === null)) {
+            // Déconnecter l'utilisateur
             auth()->logout();
+            // Rediriger l'utilisateur vers la page de connexion avec un message d'erreur
             return redirect('/login')->with('error', 'Votre compte est en attente d\'approbation par un administrateur.');
         }
-    
         return $next($request);
     }
     

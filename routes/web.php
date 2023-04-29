@@ -31,8 +31,8 @@ Route::post('/logout', [App\Http\Controllers\AuthenticatedSessionController::cla
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::view('/admin', 'admin.home')->name('admin.home');
 });
-    
-Route::group(['middleware' => ['auth']], function() {
+
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', [App\Http\Controllers\AuthenticatedSessionController::class, 'logout'])->name('logout');
     Route::get('/profil', [App\Http\Controllers\UserController::class, 'profil'])->name('profil');
     Route::get('/changepassword', [App\Http\Controllers\UserController::class, 'showChangePasswordForm'])->name('user.changePassword');
@@ -51,7 +51,7 @@ Route::post('/register', [App\Http\Controllers\RegisterController::class, 'regis
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.users.index');
     Route::resource('formations', App\Http\Controllers\FormationController::class);
-    Route::resource('admin/formations',App\Http\Controllers\FormationController::class)->except(['show']);
+    Route::resource('admin/formations', App\Http\Controllers\FormationController::class)->except(['show']);
     Route::get('admin/formations/create', [App\Http\Controllers\FormationController::class, 'create'])->name('admin.formations.create');
     Route::post('admin/formations', [App\Http\Controllers\FormationController::class, 'store'])->name('admin.formations.store');
     Route::get('admin/formations', [App\Http\Controllers\FormationController::class, 'index'])->name('admin.formations.index');
@@ -74,7 +74,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/users', [App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
     Route::put('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::put('/admin/users/{user}/type', [App\Http\Controllers\AdminController::class, 'updateType'])->name('admin.users.update.type');
-    
+
 
 
 });
@@ -89,7 +89,7 @@ Route::middleware(['auth', 'is_admin_ou_enseignant'])->group(function () {
     Route::delete('/sessions/{session}', [App\Http\Controllers\SessionController::class, 'destroy'])->name('sessions.destroy');
     Route::get('/cours/{id}', [App\Http\Controllers\CourseController::class, 'show'])->name('cours.show');
     Route::get('/sessions', [App\Http\Controllers\SessionController::class, 'index'])->name('sessions.index');
-  
+
 });
 
 Route::get('/', function () {

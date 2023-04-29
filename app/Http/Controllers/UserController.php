@@ -27,9 +27,11 @@ class UserController extends Controller
      * Affiche le profil de l'utilisateur.
      */
     public function profil()
-    {
+    { // Récupérer l'utilisateur connecté
         $user = Auth::user();
+        // Récupérer l'intitulé de la formation de l'utilisateur, s'il en a une
         $formation = optional($user->formation)->intitule ?? "non-étudiant";
+        // Renvoyer la vue du profil de l'utilisateur en passant les données récupérées précédemment
         return view('user.profile', compact('user', 'formation'));
     }
 
@@ -38,18 +40,21 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         try {
+            // Supprime l'utilisateur
             $user->delete();
             return redirect()->route('admin.users.index')->with('success', 'L\'utilisateur a été supprimé avec succès.');
         } catch (\Illuminate\Database\QueryException $e) {
+            // On recupère le code d'erreur en cas d'exception lors de la suppression de l'utilisateur
             $errorCode = $e->errorInfo[1];
+            // Si l'erreur est une violation de clé étrangère alors des données sont liées à cet utilisateur, on ne peut donc pas le supprimer
             if ($errorCode == 1451) {
                 return redirect()->route('admin.users.index')->with('error', 'Impossible de supprimer l\'utilisateur car des données y sont liées. Veuillez vous assurer que toutes les données liées à cet utilisateur, comme les notes et les absences associées, ont été supprimées avant de procéder à la suppression de l\'utilisateur.');
             } else {
+                // Sinon, une erreur inconnue est survenue, on redirige donc vers la page d'index des utilisateurs avec un message d'avertissement
                 return redirect()->route('admin.users.index')->with('warning', 'Une erreur est survenue lors de la suppression de l\'utilisateur. Veuillez respecter les conditions avant de supprimer un utilisateur.');
             }
         }
     }
-
 
     public function update(Request $request)
     {
@@ -59,7 +64,7 @@ class UserController extends Controller
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
         ]);
-
+        // Mise à jour des informations de l'utilisateur
         $user->update([
             'nom' => $request->nom,
             'prenom' => $request->prenom,
@@ -72,6 +77,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
+        // Vérifier si l'utilisateur est un étudiant ou un enseignant et récupérer les cours correspondants
         if ($user->type == 'etudiant') {
             $courses = $user->courses;
         } else {
@@ -121,7 +127,8 @@ class UserController extends Controller
             'formation_id' => 'nullable|exists:formations,id',
             'type' => 'required|in:etudiant,enseignant,admin',
         ]);
-
+        
+        // Création d'un nouvel utilisateur avec les données du formulaire
         User::create([
             'nom' => $request->input('nom'),
             'prenom' => $request->input('prenom'),
