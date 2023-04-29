@@ -67,8 +67,10 @@ class CourseController extends Controller
 
 
     public function show($id)
-    {
+    {   
+        // Récupère le cours avec ses relations 'formation', 'user', et 'plannings' à partir de l'ID fourni, ou génère une erreur si non trouvé
         $course = Cours::with(['formation', 'user', 'plannings'])->findOrFail($id);
+        // Retourne la vue 'cours.show' avec le cours récupéré
         return view('cours.show', compact('course'));
     }
 
@@ -78,32 +80,40 @@ class CourseController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-    {
+    {   
+        // Récupère le cours à partir de l'ID fourni, ou génère une erreur si non trouvé
         $course = Cours::findOrFail($id);
+        // Récupère toutes les formations
         $formations = Formation::all();
+        // Récupère tous les utilisateurs de type 'enseignant'
         $enseignants = User::where('type', 'enseignant')->get();
+        // Retourne la vue 'cours.edit' avec le cours récupéré, les formations et les enseignants
         return view('cours.edit', compact('course', 'formations', 'enseignants'));
     }
     
-   
     public function update(Request $request, $id)
     {
+        // Valide les données reçues dans la requête
         $request->validate([
             'intitule' => 'required',
             'user_id' => 'required',
         ]);
-    
+        
+        // Récupère le cours à partir de l'ID fourni, ou génère une erreur si non trouvé
         $course = Cours::findOrFail($id);
+        // Met à jour l'intitulé et l'ID de l'utilisateur du cours avec les données reçues
         $course->intitule = $request->intitule;
         $course->user_id = $request->user_id;
+        // Enregistre les modifications apportées au cours
         $course->save();
-    
+        // Redirige vers la liste des cours avec un message de succès
         return redirect()->route('cours.index', $course->id)->with('success', 'Le cours a été modifié avec succès.');
     }
     
 
     public function destroy($id)
-    {
+    {   
+        // Récupère le cours à partir de l'ID fourni, ou génère une erreur si non trouvé
         $course = Cours::findOrFail($id);
     
         // Supprime les séances de cours associées
@@ -113,64 +123,73 @@ class CourseController extends Controller
     
         // Désinscrire tous les étudiants inscrits à ce cours
         $course->students()->detach();
-    
+        // Supprime le cours
         $course->delete();
-    
+        // Redirige vers la liste des cours avec un message de succès
         return redirect()->route('cours.index')->with('success', 'Le cours a été supprimé avec succès.');
     }
     
 
     public function studentCourses(Request $request)
-    {
+    {   
+        // Récupère l'utilisateur connecté
         $user = auth()->user();
+        // Récupère l'ID de la formation de l'étudiant
         $formation_id = $user->formation_id;
+        // Récupère la valeur de la recherche à partir de la requête
         $search = $request->input('search');
-    
+        // Construit la requête pour récupérer les cours correspondant à la formation de l'étudiant
         $courses = Cours::with(['formation', 'user'])
                         ->where('formation_id', $formation_id)
                         ->when($search, function ($query, $search) {
                             return $query->where('intitule', 'like', '%' . $search . '%');
                         })
                         ->paginate(3);
-    
+        // Retourne la vue 'cours.student' avec les cours récupérés
         return view('cours.student', compact('courses'));
     }
     
 
 public function enroll(int $id)
-{
+{   
+    // On récupère l'utilisateur connecté
     $user = auth()->user();
+    // On trouve le cours spécifique à l'aide de l'ID passé en paramètre
     $course = Cours::findOrFail($id);
-
+    // Si l'utilisateur est déjà inscrit au cours, on redirige vers la liste des cours avec un message d'avertissement
     if ($user->courses->contains($course)) {
         return redirect()->route('student.courses')->with('warning', 'Vous êtes déjà inscrit à ce cours.');
     }
-
+    // On inscrit l'utilisateur au cours en utilisant la méthode attach() 
     $course->students()->attach($user->id);
-
+    // On redirige vers la liste des cours avec un message de succès
     return redirect()->route('student.courses')->with('success', 'Vous êtes maintenant inscrit au cours.');
 }
 
 
 public function unenroll(int $id)
-{
+{   
+    // Récupérer l'utilisateur authentifié
     $user = auth()->user();
+    // Récupérer le cours correspondant à l'ID fourni
     $course = Cours::findOrFail($id);
-
+    // Si l'utilisateur n'est pas inscrit à ce cours, rediriger avec un message d'avertissement
     if (!$user->courses->contains($id)) {
         return redirect()->route('student.courses')->with('warning', 'Vous n\'êtes pas inscrit à ce cours.');
     }
-    
+    // Désinscrire l'utilisateur du cours
     $course->students()->detach($user->id);
-    
+    // Rediriger avec un message de succès
     return redirect()->route('student.courses')->with('danger', 'Vous êtes désinscrit du cours.');
     
 }
 
 
 public function myCourses() 
-{
+{   
+    // Récupère l'utilisateur authentifié
     $user = auth()->user();
+    // Récupère les cours associés à l'utilisateur 
     $courses = $user->courses()->with(['formation', 'user'])->get();
 
     return view('cours.mycourses', compact('courses'));
