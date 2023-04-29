@@ -12,64 +12,65 @@ use App\Models\Formation;
 class CourseController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
+        // Initialise la requête pour récupérer les cours avec leurs relations formation et utilisateur
         $query = Cours::with(['formation', 'user']);
-    
+
+        // Si une chaîne de recherche est fournie, filtre les cours en fonction de leur intitulé
         if ($request->input('q')) {
             $query->where('intitule', 'like', '%' . $request->input('q') . '%');
         }
-    
+        // Si un enseignant est spécifié, filtre les cours en fonction de l'ID de l'enseignant
         if ($request->input('enseignant')) {
             $query->where('user_id', $request->input('enseignant'));
         }
-    
+        // Pagination des résultats de la requête
         $cours = $query->paginate(5);
-    
+        // Récupère tous les enseignants
         $enseignants = User::where('type', 'enseignant')->get();
-    
+        // Retourne la vue avec les cours et les enseignants
         return view('cours.index', compact('cours', 'enseignants'));
     }
     
     
 
     public function create()
-    {
+    {   
+        // Récupère toutes les formations
         $formations = Formation::all();
+        // Récupère tous les enseignants
         $enseignants = User::where('type', 'enseignant')->get();
+        // Retourne la vue pour créer un nouveau cours avec les formations et les enseignants
         return view('cours.create', compact('formations', 'enseignants'));
     }
     
 
     public function store(Request $request)
-    {
+    {   
+        // Valide les données de la requête
         $request->validate([
             'intitule' => 'required|string|max:50|min:5',
             'formation_id' => 'required|integer|exists:formations,id',
             'user_id' => 'required|integer|exists:users,id',
         ]);
-    
+        // Crée une nouvelle instance de Cours avec les données de la requête
         $course = new Cours([
             'intitule' => $request->input('intitule'),
             'formation_id' => $request->input('formation_id'),
             'user_id' => $request->input('user_id'),
         ]);
-    
+        // Sauvegarde l'instance de Cours dans la base de données
         $course->save();
-    
+        // Redirige vers la liste des cours avec un message de succès
         return redirect()->route('cours.index')->with('success', 'Le cours a été créé avec succès et l\'enseignant a été associé.');
     }
-/* 
-    public function show($id)
-{
-    $course = Cours::with(['formation', 'user'])->findOrFail($id);
-    return view('cours.show', compact('course'));
-} */
 
-public function show($id)
-{
-    $course = Cours::with(['formation', 'user', 'plannings'])->findOrFail($id);
-    return view('cours.show', compact('course'));
-}
+
+    public function show($id)
+    {
+        $course = Cours::with(['formation', 'user', 'plannings'])->findOrFail($id);
+        return view('cours.show', compact('course'));
+    }
 
 
 
