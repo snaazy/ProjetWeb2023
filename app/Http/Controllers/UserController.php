@@ -123,7 +123,7 @@ class UserController extends Controller
             'nom' => 'required|string|max:40',
             'prenom' => 'required|string|max:40',
             'login' => 'required|string|max:30|unique:users',
-            'mdp' => 'required|string|min:1',
+            'mdp' => 'required|string|min:5',
             'formation_id' => 'nullable|exists:formations,id',
             'type' => 'required|in:etudiant,enseignant,admin',
         ]);
