@@ -100,11 +100,11 @@ class UserController extends Controller
             'new_password' => 'required|min:2',
             'new_password_confirmation' => 'required|same:new_password',
         ]);
-
+        // Vérification de la correspondance du mot de passe actuel avec celui de l'utilisateur
         if (!Hash::check($request->input('current_password'), $user->mdp)) {
             return redirect()->back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);
         }
-
+        // Mise à jour du mot de passe de l'utilisateur
         $user->mdp = bcrypt($request->input('new_password'));
         $user->save();
 

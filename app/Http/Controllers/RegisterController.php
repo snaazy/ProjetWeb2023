@@ -23,18 +23,21 @@ class RegisterController extends Controller
             'mdp' => 'required|string|min:1',
             'formation_id' => 'nullable|exists:formations,id'
         ]);
-    
+
+        // Récupération du type d'utilisateur
         $type = $request->input('type');
-    
+        // Si l'utilisateur est un admin, on ne l'assigne pas à une formation
         if ($type == 'admin') {
             $formation_id = null;
         } elseif ($type == 'enseignant') {
+            // Si l'utilisateur est un enseignant, on ne l'assigne pas à une formation et on met son type à 'enseignant'
             $formation_id = null;
             $type = 'enseignant';
         } else {    
+            // Sinon, on l'assigne à la formation choisie
             $formation_id = $request->input('formation_id');
         }
-    
+        // Création d'un nouvel utilisateur avec les données du formulaire
         User::create([
             'nom' => $request->input('nom'),
             'prenom' => $request->input('prenom'),
@@ -43,7 +46,7 @@ class RegisterController extends Controller
             'formation_id' => $formation_id,
             'type' => $type
         ]);
-    
+        // Redirection avec un message de succès en fonction du type d'utilisateur créé
         if ($type == 'admin') {
             return redirect('/login')->with('success', 'Compte administrateur créé avec succès.');
         } elseif ($type == 'enseignant') {
