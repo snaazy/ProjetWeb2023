@@ -1,6 +1,30 @@
 ## Présentation du projet
 Ce projet est un site de gestion des cours et des plannings, conçu pour répondre aux besoins des étudiants, des enseignants et de l'administrateur. Les étudiants peuvent s'inscrire à des cours de leur formation, consulter leur planning personnalisé et effectuer des opérations telles que l'inscription ou la désinscription à un cours. Les enseignants peuvent voir la liste des cours dont ils sont responsables, gérer leur planning en créant, mettant à jour ou supprimant des séances de cours. L'administrateur est en charge de la gestion globale du site, y compris la création et la modification des cours, des formations, des enseignants et des étudiants. Il peut également effectuer toutes les tâches des étudiants et des enseignants, et consulter le planning pour tous les utilisateurs.
 
+# Aperçu de la page d'accueil du site
+<img width="1631" alt="Capture d’écran 2023-07-11 à 17 37 20" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/1a727c8c-4fb3-4d4d-94c1-560c054517a3">
+
+# Formulaire de connexion et d'inscription 
+<img width="921" alt="Capture d’écran 2023-07-11 à 17 37 55" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/51c97e24-6795-4971-8a7a-3abb8d2de445">
+<img width="869" alt="Capture d’écran 2023-07-11 à 17 38 08" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/796afc9d-5425-4baf-aa54-438bea021f98">
+
+# Portail administrateur
+<img width="656" alt="Capture d’écran 2023-07-11 à 17 38 51" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/243598e2-2d91-449f-a73c-3463a6269a6b">
+
+# Liste des utilisateurs (admin)
+<img width="1585" alt="Capture d’écran 2023-07-11 à 17 40 25" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/61ea736c-179d-45a6-8051-5c30c9bda8e3">
+
+# Profil
+<img width="785" alt="Capture d’écran 2023-07-11 à 17 41 54" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/f9693a15-98ea-4097-8a5c-42e1fc2170ce">
+
+# Liste des cours 
+
+
+<img width="1466" alt="Capture d’écran 2023-07-11 à 17 45 21" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/3b1fcc80-4a25-494c-b18a-b45da2db36a2">
+" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a>
+
+# Planning étudiant
+<img width="1058" alt="Capture d’écran 2023-07-11 à 17 47 07" src="https://github.com/snaazy/ProjetWeb2023/assets/59265302/0707ad95-8a35-4c31-930d-3fd910cd971f">
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
