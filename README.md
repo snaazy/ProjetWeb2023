@@ -1,3 +1,7 @@
+## Présentation du projet
+Ce projet est un site de gestion des cours et des plannings, conçu pour répondre aux besoins des étudiants, des enseignants et de l'administrateur. Les étudiants peuvent s'inscrire à des cours de leur formation, consulter leur planning personnalisé et effectuer des opérations telles que l'inscription ou la désinscription à un cours. Les enseignants peuvent voir la liste des cours dont ils sont responsables, gérer leur planning en créant, mettant à jour ou supprimant des séances de cours. L'administrateur est en charge de la gestion globale du site, y compris la création et la modification des cours, des formations, des enseignants et des étudiants. Il peut également effectuer toutes les tâches des étudiants et des enseignants, et consulter le planning pour tous les utilisateurs.
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
